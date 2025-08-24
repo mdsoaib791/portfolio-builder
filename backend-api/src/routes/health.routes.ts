@@ -3,7 +3,6 @@ import container from '../config/ioc.config';
 import { TYPES } from '../config/ioc.types';
 import { HealthController } from '../controllers/health.controller';
 import asyncHandler from '../middlewares/asyncHandler.middleware';
-import authentication from '../middlewares/authentication.middleware';
 
 /**
  * @swagger
@@ -13,7 +12,6 @@ import authentication from '../middlewares/authentication.middleware';
  */
 
 const healthRouter = Router();
-
 const healthController = container.get<HealthController>(TYPES.HealthController);
 
 /**
@@ -26,6 +24,6 @@ const healthController = container.get<HealthController>(TYPES.HealthController)
  *       200:
  *         description: Service is healthy
  */
-healthRouter.get('/check',[authentication], asyncHandler(healthController.check));
+healthRouter.get('/check', asyncHandler(healthController.check));
 
 export default healthRouter;

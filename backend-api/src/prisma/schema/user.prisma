@@ -20,6 +20,9 @@ model User {
   updatedAt        DateTime?    @updatedAt @map("updated_at")
 
   workExperiences  WorkExperience[]
+  skills           Skill[]
+  projects Project[]
+
 
   @@map("users")
 }

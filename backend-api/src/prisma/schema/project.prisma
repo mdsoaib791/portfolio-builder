@@ -1,0 +1,13 @@
+model Project {
+  id            String   @id @default(uuid())
+  userId        String   @map("user_id") @db.VarChar(50)
+  title         String   @db.VarChar(200)
+  description   String?  @db.VarChar(2000)
+  url           String?  @db.VarChar(500)
+  technologies  String?  @db.VarChar(500) // comma-separated list
+  startDate     DateTime @map("start_date")
+  endDate       DateTime? @map("end_date")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+  user          User     @relation(fields: [userId], references: [id])
+}

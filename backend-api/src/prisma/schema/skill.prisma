@@ -1,0 +1,10 @@
+model Skill {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id") @db.VarChar(50)
+  name        String   @db.VarChar(100)
+  level       String?  @db.VarChar(50) // e.g., Beginner, Intermediate, Expert
+  description String?  @db.VarChar(500)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  user        User     @relation(fields: [userId], references: [id])
+}

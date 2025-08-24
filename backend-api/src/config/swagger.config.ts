@@ -21,6 +21,34 @@ const options = {
         },
       },
       schemas: {
+        ProjectDto: {
+          type: 'object',
+          properties: {
+            id: { type: 'string', example: 'uuid-1234' },
+            userId: { type: 'string', example: 'clv1k2k2k2k2k2k2k2k2k2k2' },
+            title: { type: 'string', example: 'Portfolio Website' },
+            description: { type: 'string', example: 'A personal portfolio site' },
+            url: { type: 'string', example: 'https://portfolio.com' },
+            startDate: { type: 'string', format: 'date', example: '2023-01-01' },
+            endDate: { type: 'string', format: 'date', nullable: true, example: '2023-06-01' },
+            technologies: { type: 'array', items: { type: 'string' }, example: ['React', 'Node.js'] },
+            createdAt: { type: 'string', format: 'date-time' },
+            updatedAt: { type: 'string', format: 'date-time', nullable: true },
+          },
+          required: ['id', 'userId', 'title', 'createdAt'],
+        },
+        SkillDto: {
+          type: 'object',
+          properties: {
+            id: { type: 'string', example: 'uuid-5678' },
+            userId: { type: 'string', example: 'clv1k2k2k2k2k2k2k2k2k2k2' },
+            name: { type: 'string', example: 'JavaScript' },
+            level: { type: 'string', enum: ['Beginner', 'Intermediate', 'Advanced'], example: 'Advanced' },
+            createdAt: { type: 'string', format: 'date-time' },
+            updatedAt: { type: 'string', format: 'date-time', nullable: true },
+          },
+          required: ['id', 'userId', 'name', 'level', 'createdAt'],
+        },
         UserDto: {
           type: 'object',
           properties: {

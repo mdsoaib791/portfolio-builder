@@ -3,6 +3,9 @@ export const TYPES = {
   UserController: Symbol.for('UserController'),
   AccountController: Symbol.for('AccountController'),
 
+  SkillController: Symbol.for('SkillController'),
+  ProjectController: Symbol.for('ProjectController'),
+
   IUnitOfService: Symbol.for('IUnitOfService'),
   IUserService: Symbol.for('IUserService'),
 
@@ -12,4 +15,8 @@ export const TYPES = {
   IWorkExperienceService: Symbol.for('IWorkExperienceService'),
   IWorkExperienceRepository: Symbol.for('IWorkExperienceRepository'),
   IUnitOfWorkWorkExperience: Symbol.for('IUnitOfWorkWorkExperience'),
+  ISkillRepository: Symbol.for('ISkillRepository'),
+  ISkillService: Symbol.for('ISkillService'),
+  IProjectRepository: Symbol.for('IProjectRepository'),
+  IProjectService: Symbol.for('IProjectService'),
 };

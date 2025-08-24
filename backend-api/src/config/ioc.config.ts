@@ -23,6 +23,19 @@ import UnitOfWork from '../repositories/unitofwork.repository';
 import { UserRepository } from '../repositories/user.repository';
 import { WorkExperienceRepository } from '../repositories/work-experience.repository';
 
+import { ISkillRepository } from '../repositories/interfaces/iskill.repository';
+import { SkillRepository } from '../repositories/skill.repository';
+import { ISkillService } from '../services/interfaces/iskill.service';
+import { SkillService } from '../services/skill.service';
+
+import { IProjectRepository } from '../repositories/interfaces/iproject.repository';
+import { ProjectRepository } from '../repositories/project.repository';
+import { IProjectService } from '../services/interfaces/iproject.service';
+import { ProjectService } from '../services/project.service';
+
+import { ProjectController } from '../controllers/project.controller';
+import { SkillController } from '../controllers/skill.controller';
+
 const container = new Container();
 
 container.bind<HealthController>(TYPES.HealthController).to(HealthController);
@@ -38,5 +51,13 @@ container.bind<IUnitOfWork>(TYPES.IUnitOfWork).to(UnitOfWork);
 container.bind<IUserRepository>(TYPES.IUserRepository).to(UserRepository);
 container.bind<IWorkExperienceRepository>(TYPES.IWorkExperienceRepository).to(WorkExperienceRepository);
 container.bind<IUnitOfWorkWorkExperience>(TYPES.IUnitOfWorkWorkExperience).to(UnitOfWorkWorkExperience);
+
+container.bind<SkillController>(TYPES.SkillController).to(SkillController);
+container.bind<ProjectController>(TYPES.ProjectController).to(ProjectController);
+
+container.bind<ISkillRepository>(TYPES.ISkillRepository).to(SkillRepository);
+container.bind<ISkillService>(TYPES.ISkillService).to(SkillService);
+container.bind<IProjectRepository>(TYPES.IProjectRepository).to(ProjectRepository);
+container.bind<IProjectService>(TYPES.IProjectService).to(ProjectService);
 
 export default container;
