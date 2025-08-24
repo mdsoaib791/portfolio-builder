@@ -1,4 +1,4 @@
-import { CreateProjectDto, ProjectDto, UpdateProjectDto } from '../dtos/project.dto';
+import { CreateProjectModel, Project, UpdateProjectModel } from '../models/project.model';
 import { PrismaClient } from '../prisma/generated/client';
 import { IProjectRepository } from './interfaces/iproject.repository';
 
@@ -12,7 +12,7 @@ export class ProjectRepository implements IProjectRepository {
     sortBy = 'createdAt',
     sortOrder: 'asc' | 'desc' = 'desc'
   ): Promise<{
-    projects: ProjectDto[];
+    projects: Project[];
     total: number;
     page: number;
     limit: number;
@@ -38,7 +38,7 @@ export class ProjectRepository implements IProjectRepository {
       take: limit,
       orderBy: { [sortBy]: sortOrder },
     });
-    const projects = projectsRaw.map(p => ({
+    const projects: Project[] = projectsRaw.map(p => ({
       ...p,
       description: p.description === null ? undefined : p.description,
       url: p.url === null ? undefined : p.url,
@@ -54,7 +54,7 @@ export class ProjectRepository implements IProjectRepository {
     };
   }
 
-  async findById(id: string): Promise<ProjectDto | null> {
+  async findById(id: string): Promise<Project | null> {
     const p = await prisma.project.findUnique({ where: { id } });
     if (!p) return null;
     return {
@@ -66,7 +66,7 @@ export class ProjectRepository implements IProjectRepository {
     };
   }
 
-  async create(data: CreateProjectDto): Promise<ProjectDto> {
+  async create(data: CreateProjectModel): Promise<Project> {
     const p = await prisma.project.create({ data });
     return {
       ...p,
@@ -77,7 +77,7 @@ export class ProjectRepository implements IProjectRepository {
     };
   }
 
-  async update(id: string, data: UpdateProjectDto): Promise<ProjectDto | null> {
+  async update(id: string, data: UpdateProjectModel): Promise<Project | null> {
     const p = await prisma.project.update({ where: { id }, data });
     return {
       ...p,
@@ -88,7 +88,7 @@ export class ProjectRepository implements IProjectRepository {
     };
   }
 
-  async delete(id: string): Promise<ProjectDto | null> {
+  async delete(id: string): Promise<Project | null> {
     const p = await prisma.project.delete({ where: { id } });
     return {
       ...p,

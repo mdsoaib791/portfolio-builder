@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { TYPES } from '../config/ioc.types';
-import { CreateProjectDto, ProjectDto, UpdateProjectDto } from '../dtos/project.dto';
+import { CreateProjectModel, Project, UpdateProjectModel } from '../models/project.model';
 import { IProjectRepository } from '../repositories/interfaces/iproject.repository';
 import { IProjectService } from './interfaces/iproject.service';
 
@@ -8,7 +8,7 @@ import { IProjectService } from './interfaces/iproject.service';
 export class ProjectService implements IProjectService {
   constructor(@inject(TYPES.IProjectRepository) private projectRepository: IProjectRepository) { }
 
-  async findById(id: string): Promise<ProjectDto | null> {
+  async findById(id: string): Promise<Project | null> {
     return this.projectRepository.findById(id);
   }
 
@@ -22,15 +22,15 @@ export class ProjectService implements IProjectService {
     return this.projectRepository.findAll(filters, page, limit, sortBy, sortOrder);
   }
 
-  async create(data: CreateProjectDto): Promise<ProjectDto | null> {
+  async create(data: CreateProjectModel): Promise<Project | null> {
     return this.projectRepository.create(data);
   }
 
-  async update(id: string, data: UpdateProjectDto): Promise<ProjectDto | null> {
+  async update(id: string, data: UpdateProjectModel): Promise<Project | null> {
     return this.projectRepository.update(id, data);
   }
 
-  async delete(id: string): Promise<ProjectDto | null> {
+  async delete(id: string): Promise<Project | null> {
     return this.projectRepository.delete(id);
   }
 }

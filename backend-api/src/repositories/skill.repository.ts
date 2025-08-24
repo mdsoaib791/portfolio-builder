@@ -1,4 +1,4 @@
-import { CreateSkillDto, SkillDto, UpdateSkillDto } from '../dtos/skill.dto';
+import { CreateSkillModel, Skill, UpdateSkillModel } from '../models/skill.model';
 import { PrismaClient } from '../prisma/generated/client';
 import { ISkillRepository } from './interfaces/iskill.repository';
 
@@ -12,7 +12,7 @@ export class SkillRepository implements ISkillRepository {
     sortBy = 'createdAt',
     sortOrder: 'asc' | 'desc' = 'desc'
   ): Promise<{
-    skills: SkillDto[];
+    skills: Skill[];
     total: number;
     page: number;
     limit: number;
@@ -38,7 +38,7 @@ export class SkillRepository implements ISkillRepository {
       take: limit,
       orderBy: { [sortBy]: sortOrder },
     });
-    const skills = skillsRaw.map(s => ({
+    const skills: Skill[] = skillsRaw.map(s => ({
       ...s,
       level: s.level === null ? undefined : s.level,
       description: s.description === null ? undefined : s.description,
@@ -52,7 +52,7 @@ export class SkillRepository implements ISkillRepository {
     };
   }
 
-  async findById(id: string): Promise<SkillDto | null> {
+  async findById(id: string): Promise<Skill | null> {
     const s = await prisma.skill.findUnique({ where: { id } });
     if (!s) return null;
     return {
@@ -62,7 +62,7 @@ export class SkillRepository implements ISkillRepository {
     };
   }
 
-  async create(data: CreateSkillDto): Promise<SkillDto> {
+  async create(data: CreateSkillModel): Promise<Skill> {
     const s = await prisma.skill.create({ data });
     return {
       ...s,
@@ -71,7 +71,7 @@ export class SkillRepository implements ISkillRepository {
     };
   }
 
-  async update(id: string, data: UpdateSkillDto): Promise<SkillDto | null> {
+  async update(id: string, data: UpdateSkillModel): Promise<Skill | null> {
     const s = await prisma.skill.update({ where: { id }, data });
     return {
       ...s,
@@ -80,7 +80,7 @@ export class SkillRepository implements ISkillRepository {
     };
   }
 
-  async delete(id: string): Promise<SkillDto | null> {
+  async delete(id: string): Promise<Skill | null> {
     const s = await prisma.skill.delete({ where: { id } });
     return {
       ...s,

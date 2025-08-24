@@ -2,8 +2,9 @@ import { Request, Response } from 'express';
 import container from '../config/ioc.config';
 import { TYPES } from '../config/ioc.types';
 import CustomResponse from '../dtos/custom-response';
-import { CreateProjectDto, ProjectDto, UpdateProjectDto } from '../dtos/project.dto';
+import { ProjectDto } from '../dtos/project.dto';
 import CustomError from '../exceptions/custom-error';
+import { CreateProjectModel, UpdateProjectModel } from '../models/project.model';
 import { IProjectService } from '../services/interfaces/iproject.service';
 
 export class ProjectController {
@@ -35,11 +36,11 @@ export class ProjectController {
   };
 
   createProject = async (req: Request, res: Response) => {
-    const userId = req.body?.currentUserId || '';
+    const userId = req.body.userId || '';
     if (!userId) {
       throw new CustomError('User ID is required', 400);
     }
-    const data: CreateProjectDto = { ...req.body, userId };
+    const data: CreateProjectModel = { ...req.body, userId };
     const project = await this.projectService.create(data);
     if (!project) {
       return res.status(400).json({ message: 'Project creation failed' });
@@ -53,7 +54,7 @@ export class ProjectController {
 
   updateProjectById = async (req: Request, res: Response) => {
     const id = req.params.id;
-    const data: UpdateProjectDto = req.body;
+    const data: UpdateProjectModel = req.body;
     const project = await this.projectService.update(id, data);
     if (!project) {
       return res.status(404).json({ message: 'Project not found' });

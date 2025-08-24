@@ -2,7 +2,8 @@ import { Request, Response } from 'express';
 import container from '../config/ioc.config';
 import { TYPES } from '../config/ioc.types';
 import CustomResponse from '../dtos/custom-response';
-import { CreateSkillDto, SkillDto, UpdateSkillDto } from '../dtos/skill.dto';
+import { SkillDto } from '../dtos/skill.dto';
+import { CreateSkillModel, UpdateSkillModel } from '../models/skill.model';
 import { ISkillService } from '../services/interfaces/iskill.service';
 
 export class SkillController {
@@ -34,8 +35,8 @@ export class SkillController {
   };
 
   createSkill = async (req: Request, res: Response) => {
-    const userId = req.body?.currentUserId || '';
-    const data: CreateSkillDto = { ...req.body, userId };
+    const userId = req.body?.userId || '';
+    const data: CreateSkillModel = { ...req.body, userId };
     const skill = await this.skillService.create(data);
     if (!skill) {
       return res.status(400).json({ message: 'Skill creation failed' });
@@ -49,7 +50,7 @@ export class SkillController {
 
   updateSkillById = async (req: Request, res: Response) => {
     const id = req.params.id;
-    const data: UpdateSkillDto = req.body;
+    const data: UpdateSkillModel = req.body;
     const skill = await this.skillService.update(id, data);
     if (!skill) {
       return res.status(404).json({ message: 'Skill not found' });

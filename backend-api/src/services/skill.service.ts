@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { TYPES } from '../config/ioc.types';
-import { CreateSkillDto, SkillDto, UpdateSkillDto } from '../dtos/skill.dto';
+import { CreateSkillModel, Skill, UpdateSkillModel } from '../models/skill.model';
 import { ISkillRepository } from '../repositories/interfaces/iskill.repository';
 import { ISkillService } from './interfaces/iskill.service';
 
@@ -8,7 +8,7 @@ import { ISkillService } from './interfaces/iskill.service';
 export class SkillService implements ISkillService {
   constructor(@inject(TYPES.ISkillRepository) private skillRepository: ISkillRepository) { }
 
-  async findById(id: string): Promise<SkillDto | null> {
+  async findById(id: string): Promise<Skill | null> {
     return this.skillRepository.findById(id);
   }
 
@@ -22,15 +22,15 @@ export class SkillService implements ISkillService {
     return this.skillRepository.findAll(filters, page, limit, sortBy, sortOrder);
   }
 
-  async create(data: CreateSkillDto): Promise<SkillDto | null> {
+  async create(data: CreateSkillModel): Promise<Skill | null> {
     return this.skillRepository.create(data);
   }
 
-  async update(id: string, data: UpdateSkillDto): Promise<SkillDto | null> {
+  async update(id: string, data: UpdateSkillModel): Promise<Skill | null> {
     return this.skillRepository.update(id, data);
   }
 
-  async delete(id: string): Promise<SkillDto | null> {
+  async delete(id: string): Promise<Skill | null> {
     return this.skillRepository.delete(id);
   }
 }

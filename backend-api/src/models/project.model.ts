@@ -1,5 +1,5 @@
-export interface Project {
-  id: string;
+
+export interface CreateProjectModel {
   userId: string;
   title: string;
   description?: string;
@@ -7,6 +7,12 @@ export interface Project {
   technologies?: string;
   startDate: Date;
   endDate?: Date;
+}
+
+export interface UpdateProjectModel extends Partial<CreateProjectModel> { }
+
+export interface Project extends CreateProjectModel {
+  id: string;
   createdAt: Date;
   updatedAt: Date;
 }

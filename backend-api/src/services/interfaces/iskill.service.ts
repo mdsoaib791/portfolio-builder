@@ -1,9 +1,9 @@
-import { CreateSkillDto, SkillDto, UpdateSkillDto } from '../../dtos/skill.dto';
+import { CreateSkillModel, Skill, UpdateSkillModel } from '../../models/skill.model';
 
 export interface ISkillService {
-  findById(id: string): Promise<SkillDto | null>;
-  findAll(filters?: any, page?: number, limit?: number, sortBy?: string, sortOrder?: string): Promise<{ skills: SkillDto[]; total: number; page: number; limit: number; totalPages: number }>;
-  create(data: CreateSkillDto): Promise<SkillDto | null>;
-  update(id: string, data: UpdateSkillDto): Promise<SkillDto | null>;
-  delete(id: string): Promise<SkillDto | null>;
+  findById(id: string): Promise<Skill | null>;
+  findAll(filters?: any, page?: number, limit?: number, sortBy?: string, sortOrder?: string): Promise<{ skills: Skill[]; total: number; page: number; limit: number; totalPages: number }>;
+  create(data: CreateSkillModel): Promise<Skill | null>;
+  update(id: string, data: UpdateSkillModel): Promise<Skill | null>;
+  delete(id: string): Promise<Skill | null>;
 }
