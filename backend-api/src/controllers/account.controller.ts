@@ -1,16 +1,16 @@
 import { Request, Response } from 'express';
-import CustomResponse from '../dtos/custom-response';
-import { LoginModel } from '../models/login.model';
-import PasswordUtils from '../utils/password.utils';
 import * as jwt from 'jsonwebtoken';
 import config from '../config';
 import container from '../config/ioc.config';
-import IUnitOfService from '../services/interfaces/iunitof.service';
 import { TYPES } from '../config/ioc.types';
-import { CreateUserModel } from '../models/user.model';
-import CustomError from '../exceptions/custom-error';
+import CustomResponse from '../dtos/custom-response';
 import { UserDto } from '../dtos/user.dto';
+import CustomError from '../exceptions/custom-error';
+import { LoginModel } from '../models/login.model';
+import { CreateUserModel } from '../models/user.model';
 import { UserRole } from '../prisma/generated';
+import IUnitOfService from '../services/interfaces/iunitof.service';
+import PasswordUtils from '../utils/password.utils';
 
 export class AccountController {
   constructor(private unitOfService = container.get<IUnitOfService>(TYPES.IUnitOfService)) {
@@ -32,14 +32,14 @@ export class AccountController {
    */
   login = async (req: Request, res: Response): Promise<Response<CustomResponse<string>>> => {
     const model = req.body as LoginModel;
-    let response: CustomResponse<string>;
+    let response: CustomResponse<{ token: string; userId: string }>;
 
     const user = await this.unitOfService.User.findByEmail(model.email, true);
     if (!user) {
       response = {
         success: false,
         message: 'Invalid username or password',
-      };
+      } as any;
       return res.status(401).json(response);
     }
 
@@ -48,7 +48,7 @@ export class AccountController {
       response = {
         success: false,
         message: 'Invalid username or password',
-      };
+      } as any;
       return res.status(401).json(response);
     }
 
@@ -77,7 +77,10 @@ export class AccountController {
     response = {
       success: true,
       message: 'Login successful',
-      data: token,
+      data: {
+        userId: user.id,
+        token,
+      },
     };
 
     return res.status(200).json(response);

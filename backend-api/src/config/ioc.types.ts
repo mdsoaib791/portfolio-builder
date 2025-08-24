@@ -8,4 +8,8 @@ export const TYPES = {
 
   IUnitOfWork: Symbol.for('IUnitOfWork'),
   IUserRepository: Symbol.for('IUserRepository'),
+  WorkExperienceController: Symbol.for('WorkExperienceController'),
+  IWorkExperienceService: Symbol.for('IWorkExperienceService'),
+  IWorkExperienceRepository: Symbol.for('IWorkExperienceRepository'),
+  IUnitOfWorkWorkExperience: Symbol.for('IUnitOfWorkWorkExperience'),
 };

@@ -1,9 +1,11 @@
-import { Request, Response, NextFunction } from "express";
+import { NextFunction, Request, Response } from "express";
 import CustomResponse from "../dtos/custom-response";
 import PlainDto from "../dtos/plain.dto";
 
 class ClientIdMiddleware {
+
   verify(req: Request, res: Response, next: NextFunction) {
+
     const clientId: string = Array.isArray(req.headers["clientid"])
       ? req.headers["clientid"][0]
       : req.headers["clientid"] || "";

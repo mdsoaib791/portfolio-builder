@@ -1,13 +1,15 @@
-import 'reflect-metadata';
-import express from 'express';
+import * as bodyParser from 'body-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import * as bodyParser from 'body-parser';
+import express from 'express';
 import * as path from 'path';
-import routes from './routes/index.routes';
-import ClientIdMiddleware from './middlewares/clientid.middleware';
+import 'reflect-metadata';
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec from './config/swagger.config';
 import asyncHandler from './middlewares/asyncHandler.middleware';
+import { default as ClientIdMiddleware, default as clientidMiddleware } from './middlewares/clientid.middleware';
 import errorHandler from './middlewares/errorHandler.middleware';
+import routes from './routes/index.routes';
 
 // Load environment variables
 dotenv.config();
@@ -28,9 +30,21 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 app.use(asyncHandler(ClientIdMiddleware.verify));
-
+console.log(process.env.CLIENT_ID)
 //route setup
 app.use('/api', routes);
+
+// Exclude /api-docs and /api-docs/* from clientIdMiddleware
+app.use((req, res, next) => {
+  if (req.path.startsWith('/api-docs')) {
+    return next();
+  }
+  clientidMiddleware.verify(req, res, next);
+});
+
+// Swagger UI route
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 
 // Error-handling middleware
 app.use(errorHandler);
