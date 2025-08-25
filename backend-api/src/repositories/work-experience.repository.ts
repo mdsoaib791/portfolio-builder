@@ -18,6 +18,7 @@ export class WorkExperienceRepository implements IWorkExperienceRepository {
     totalPages: number;
   }> {
     const where: any = {};
+
     if (filters) {
       if (filters.userId) where.userId = filters.userId;
       if (filters.companyName) where.companyName = { contains: filters.companyName, mode: 'insensitive' };
@@ -33,14 +34,17 @@ export class WorkExperienceRepository implements IWorkExperienceRepository {
         ];
       }
     }
+
     const skip = (page - 1) * limit;
     const total = await prisma.workExperience.count({ where });
+
     const workExperiences = await prisma.workExperience.findMany({
       where,
       skip,
       take: limit,
       orderBy: { [sortBy]: sortOrder },
     });
+
     return {
       workExperiences,
       total,
@@ -51,18 +55,43 @@ export class WorkExperienceRepository implements IWorkExperienceRepository {
   }
 
   async findById(id: string): Promise<WorkExperienceDto | null> {
-    return prisma.workExperience.findUnique({ where: { id } });
+    return prisma.workExperience.findUnique({
+      where: { id },
+    });
   }
 
   async create(data: CreateWorkExperienceDto): Promise<WorkExperienceDto> {
-    return prisma.workExperience.create({ data });
+    return prisma.workExperience.create({
+      data: {
+        userId: data.userId,
+        companyName: data.companyName,
+        position: data.position,
+        startDate: new Date(data.startDate),
+        endDate: data.endDate ? new Date(data.endDate) : null,
+        description: data.description,
+        location: data.location,
+      },
+    });
   }
 
   async update(id: string, data: UpdateWorkExperienceDto): Promise<WorkExperienceDto> {
-    return prisma.workExperience.update({ where: { id }, data });
+    return prisma.workExperience.update({
+      where: { id },
+      data: {
+        userId: data.userId,
+        companyName: data.companyName,
+        position: data.position,
+        startDate: data.startDate ? new Date(data.startDate) : undefined,
+        endDate: data.endDate ? new Date(data.endDate) : undefined,
+        description: data.description,
+        location: data.location,
+      },
+    });
   }
 
   async delete(id: string): Promise<WorkExperienceDto> {
-    return prisma.workExperience.delete({ where: { id } });
+    return prisma.workExperience.delete({
+      where: { id },
+    });
   }
 }

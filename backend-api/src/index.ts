@@ -27,10 +27,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //setup cors
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",  // allow Next.js frontend
+    credentials: true,                 // allow cookies/headers
+  })
+);
 
 app.use(asyncHandler(ClientIdMiddleware.verify));
-console.log(process.env.CLIENT_ID)
+
 //route setup
 app.use('/api', routes);
 
