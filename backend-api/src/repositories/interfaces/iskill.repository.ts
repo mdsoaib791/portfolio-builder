@@ -1,9 +1,12 @@
-import { CreateSkillModel, Skill, UpdateSkillModel } from '../../models/skill.model';
+import { CreateSkillModel, UpdateSkillModel } from '../../models/skill.model';
+import { SkillFilterParams } from '../../params/skill.params';
+import { Skill } from '../../prisma/generated';
 
 export interface ISkillRepository {
-  findAll(filters?: any, page?: number, limit?: number, sortBy?: string, sortOrder?: string): Promise<{ skills: Skill[]; total: number; page: number; limit: number; totalPages: number }>;
-  findById(id: string): Promise<Skill | null>;
+  findAll(filters?: SkillFilterParams, page?: number, limit?: number, sortBy?: string, sortOrder?: string): Promise<{ skills: Skill[]; total: number; page: number; limit: number; totalPages: number }>;
+  findById(id: number): Promise<Skill | null>;
+  findByUserId(userId: string): Promise<Skill[]>;
   create(data: CreateSkillModel): Promise<Skill>;
-  update(id: string, data: UpdateSkillModel): Promise<Skill | null>;
-  delete(id: string): Promise<Skill | null>;
+  update(id: number, data: UpdateSkillModel): Promise<Skill | null>;
+  delete(id: number): Promise<Skill | null>;
 }

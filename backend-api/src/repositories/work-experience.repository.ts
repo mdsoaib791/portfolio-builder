@@ -54,7 +54,7 @@ export class WorkExperienceRepository implements IWorkExperienceRepository {
     };
   }
 
-  async findById(id: string): Promise<WorkExperienceDto | null> {
+  async findById(id: number): Promise<WorkExperienceDto | null> {
     return prisma.workExperience.findUnique({
       where: { id },
     });
@@ -74,7 +74,7 @@ export class WorkExperienceRepository implements IWorkExperienceRepository {
     });
   }
 
-  async update(id: string, data: UpdateWorkExperienceDto): Promise<WorkExperienceDto> {
+  async update(id: number, data: UpdateWorkExperienceDto): Promise<WorkExperienceDto> {
     return prisma.workExperience.update({
       where: { id },
       data: {
@@ -89,7 +89,7 @@ export class WorkExperienceRepository implements IWorkExperienceRepository {
     });
   }
 
-  async delete(id: string): Promise<WorkExperienceDto> {
+  async delete(id: number): Promise<WorkExperienceDto> {
     return prisma.workExperience.delete({
       where: { id },
     });

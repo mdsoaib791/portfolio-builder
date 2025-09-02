@@ -32,7 +32,7 @@ export class AccountController {
    */
   login = async (req: Request, res: Response): Promise<Response<CustomResponse<string>>> => {
     const model = req.body as LoginModel;
-    let response: CustomResponse<{ token: string; userId: string }>;
+    let response: CustomResponse<{ token: string; user: UserDto }>;
 
     const user = await this.unitOfService.User.findByEmail(model.email, true);
     if (!user) {
@@ -74,12 +74,16 @@ export class AccountController {
       }
     );
 
+    // Remove password hash from user object before sending
+    const userResponse = { ...user };
+    delete userResponse.passwordHash;
+
     response = {
       success: true,
       message: 'Login successful',
       data: {
-        userId: user.id,
         token,
+        user: userResponse,
       },
     };
 

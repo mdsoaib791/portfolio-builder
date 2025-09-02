@@ -2,7 +2,7 @@ import { UpdateWorkExperienceDto, WorkExperienceDto } from '../../dtos/work-expe
 import { CreateWorkExperienceModel } from '../../models/work-experience.model';
 
 export interface IWorkExperienceService {
-  findById(id: string): Promise<WorkExperienceDto | null>;
+  findById(id: number): Promise<WorkExperienceDto | null>;
   findAll(
     filters?: any,
     page?: number,
@@ -17,6 +17,6 @@ export interface IWorkExperienceService {
     totalPages: number;
   }>;
   create(data: CreateWorkExperienceModel): Promise<WorkExperienceDto | null>;
-  update(id: string, data: UpdateWorkExperienceDto): Promise<WorkExperienceDto | null>;
-  delete(id: string): Promise<WorkExperienceDto | null>;
+  update(id: number, data: UpdateWorkExperienceDto): Promise<WorkExperienceDto | null>;
+  delete(id: number): Promise<WorkExperienceDto | null>;
 }

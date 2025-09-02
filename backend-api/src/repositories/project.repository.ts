@@ -1,4 +1,5 @@
 import { CreateProjectModel, Project, UpdateProjectModel } from '../models/project.model';
+import { ProjectFilterParams } from '../params/project.params';
 import { PrismaClient } from '../prisma/generated/client';
 import { IProjectRepository } from './interfaces/iproject.repository';
 
@@ -6,7 +7,7 @@ const prisma = new PrismaClient();
 
 export class ProjectRepository implements IProjectRepository {
   async findAll(
-    filters?: any,
+    filters?: ProjectFilterParams,
     page = 1,
     limit = 10,
     sortBy = 'createdAt',
@@ -54,7 +55,7 @@ export class ProjectRepository implements IProjectRepository {
     };
   }
 
-  async findById(id: string): Promise<Project | null> {
+  async findById(id: number): Promise<Project | null> {
     const p = await prisma.project.findUnique({ where: { id } });
     if (!p) return null;
     return {
@@ -77,7 +78,7 @@ export class ProjectRepository implements IProjectRepository {
     };
   }
 
-  async update(id: string, data: UpdateProjectModel): Promise<Project | null> {
+  async update(id: number, data: UpdateProjectModel): Promise<Project | null> {
     const p = await prisma.project.update({ where: { id }, data });
     return {
       ...p,
@@ -88,7 +89,7 @@ export class ProjectRepository implements IProjectRepository {
     };
   }
 
-  async delete(id: string): Promise<Project | null> {
+  async delete(id: number): Promise<Project | null> {
     const p = await prisma.project.delete({ where: { id } });
     return {
       ...p,

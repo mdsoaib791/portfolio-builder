@@ -16,30 +16,61 @@ export const options: NextAuthOptions = {
           placeholder: '',
         },
         password: { label: 'Password', type: 'password' },
+        rememberMe: { label: 'Remember Me', type: 'checkbox' },
       },
       async authorize(credentials) {
         try {
-          debugger; // Debugger for VSCode/Browser
           console.log('authorize: credentials received', credentials);
+
+          // Convert rememberMe properly
+          const rememberMe = credentials?.rememberMe === 'true' || (credentials?.rememberMe as any) === true;
+
+          const loginPayload = {
+            email: credentials?.email,
+            password: credentials?.password,
+            rememberMe: rememberMe,
+          };
+
+          console.log('authorize: sending payload', loginPayload);
+
           const response = await axios.post(
             `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/login`,
-            {
-              email: credentials?.email,
-              password: credentials?.password,
-            },
+            loginPayload,
             {
               headers: {
                 'content-type': 'application/json',
-                clientId: `${process.env.NEXT_PUBLIC_API_CLIENT_ID}`,
+                'clientid': `${process.env.NEXT_PUBLIC_API_CLIENT_ID}`,
               },
             }
           );
           console.log('authorize: backend response', response.data);
           debugger; // Debugger after API call
-          return response.data.data;
+
+          // Map backend user structure to frontend UserDto structure
+          const backendUser = response.data.data.user;
+          const mappedUser = {
+            id: backendUser.id, // Use the actual user ID from backend
+            userId: backendUser.id,
+            userName: backendUser.email,
+            email: backendUser.email,
+            fullName: `${backendUser.firstName || ''} ${backendUser.lastName || ''}`.trim() || backendUser.email,
+            roleName: backendUser.role || 'USER',
+            profilePicture: backendUser.profileImageUrl || null,
+            phoneNumber: backendUser.phoneNumber || null,
+            token: response.data.data.token,
+            isActive: backendUser.isActive || true,
+            isDelete: false,
+            userType: backendUser.role || 'USER',
+            timezoneId: 'Pacific Standard Time',
+          };
+
+          return mappedUser;
         } catch (error) {
-          console.error('authorize: error', error);
-          debugger; // Debugger on error
+          console.error('authorize: error details', error);
+          if (axios.isAxiosError(error)) {
+            console.error('authorize: axios error response', error.response?.data);
+            console.error('authorize: axios error status', error.response?.status);
+          }
           return null;
         }
       },
@@ -48,11 +79,18 @@ export const options: NextAuthOptions = {
   secret: `${process.env.NEXTAUTH_SECRET}`,
   callbacks: {
     async jwt({ token, user }) {
-      return { ...token, ...user };
+      // If user object exists, add it to the token
+      if (user) {
+        token.user = user;
+      }
+      return token;
     },
 
     async session({ session, token }) {
-      session.user = (token as unknown as LoginDto).user;
+      // Add user data to session
+      if (token.user) {
+        session.user = token.user as any;
+      }
       return session;
     },
   },

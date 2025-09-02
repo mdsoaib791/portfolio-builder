@@ -1,6 +1,6 @@
 
 export interface WorkExperienceDto {
-  id: string;
+  id: number;
   userId: string;
   companyName: string;
   position: string;

@@ -6,4 +6,5 @@ export default interface IDateTimeService {
   getMonths(): DropdownBasicDto[];
   calculateDateDiff(fromDate: Date, toDate: Date): { year: number; month: number; days: number };
   formatDate(date: Date): string;
+  convertDateToISOString(dateString: string | null | undefined): string | undefined;
 }

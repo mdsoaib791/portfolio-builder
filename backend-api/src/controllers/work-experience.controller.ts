@@ -5,15 +5,16 @@ import CustomResponse from '../dtos/custom-response';
 import { UpdateWorkExperienceDto, WorkExperienceDto } from '../dtos/work-experience.dto';
 import { CreateWorkExperienceModel } from '../models/work-experience.model';
 import { IWorkExperienceService } from '../services/interfaces/iwork-experience.service';
+import IUnitOfService from '../services/interfaces/iunitof.service';
 
 export class WorkExperienceController {
-  constructor(private workExperienceService = container.get<IWorkExperienceService>(TYPES.IWorkExperienceService)) {
-    this.workExperienceService = workExperienceService;
+  constructor(private unitOfService = container.get<IUnitOfService>(TYPES.IUnitOfService)) {
+    this.unitOfService = unitOfService;
   }
 
   getWorkExperienceById = async (req: Request, res: Response): Promise<Response<CustomResponse<WorkExperienceDto>>> => {
-    const id = req.params.id;
-    const workExperience = await this.workExperienceService.findById(id);
+    const id = Number(req.params.id);
+    const workExperience = await this.unitOfService.WorkExperience.findById(id);
     if (!workExperience) {
       return res.status(404).json({ message: 'Work experience not found' });
     }
@@ -26,7 +27,7 @@ export class WorkExperienceController {
 
   getAllWorkExperiences = async (req: Request, res: Response): Promise<Response<CustomResponse<WorkExperienceDto[]>>> => {
     const { page, limit, sortBy, sortOrder, ...filters } = req.query;
-    const result = await this.workExperienceService.findAll(filters, Number(page) || 1, Number(limit) || 10, sortBy as string, sortOrder as string);
+    const result = await this.unitOfService.WorkExperience.findAll(filters, Number(page) || 1, Number(limit) || 10, sortBy as string, sortOrder as string);
     const response: CustomResponse<WorkExperienceDto[]> = {
       success: true,
       data: result.workExperiences,
@@ -37,7 +38,7 @@ export class WorkExperienceController {
 
   createWorkExperience = async (req: Request, res: Response): Promise<Response<CustomResponse<WorkExperienceDto>>> => {
     const data = req.body as CreateWorkExperienceModel;
-    const workExperience = await this.workExperienceService.create(data);
+    const workExperience = await this.unitOfService.WorkExperience.create(data);
     if (!workExperience) {
       return res.status(400).json({ message: 'Work experience creation failed' });
     }
@@ -49,9 +50,9 @@ export class WorkExperienceController {
   };
 
   updateWorkExperienceById = async (req: Request, res: Response): Promise<Response<CustomResponse<WorkExperienceDto>>> => {
-    const id = req.params.id;
+    const id = Number(req.params.id);
     const data = req.body as UpdateWorkExperienceDto;
-    const workExperience = await this.workExperienceService.update(id, data);
+    const workExperience = await this.unitOfService.WorkExperience.update(id, data);
     if (!workExperience) {
       return res.status(404).json({ message: 'Work experience not found' });
     }
@@ -63,8 +64,8 @@ export class WorkExperienceController {
   };
 
   deleteWorkExperienceById = async (req: Request, res: Response): Promise<Response<CustomResponse<WorkExperienceDto>>> => {
-    const id = req.params.id;
-    const workExperience = await this.workExperienceService.delete(id);
+    const id = Number(req.params.id);
+    const workExperience = await this.unitOfService.WorkExperience.delete(id);
     if (!workExperience) {
       return res.status(404).json({ message: 'Work experience not found' });
     }

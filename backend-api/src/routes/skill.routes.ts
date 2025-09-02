@@ -94,6 +94,27 @@ skillRouter.get('/:id', asyncHandler(skillController.getSkillById));
 
 /**
  * @swagger
+ * /skills/{userId}:
+ *   get:
+ *     summary: Get skill by User ID
+ *     tags: [Skills]
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Skill userId
+ *     responses:
+ *       200:
+ *         description: Skill found
+ *       404:
+ *         description: Skill not found
+ */
+skillRouter.get('/user/:userId', asyncHandler(skillController.getSkillByUserId));
+
+/**
+ * @swagger
  * /skills:
  *   post:
  *     summary: Create a new skill

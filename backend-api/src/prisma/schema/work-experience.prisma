@@ -1,5 +1,5 @@
 model WorkExperience {
-  id            String   @id @default(uuid())
+  id          Int      @id @default(autoincrement())
   userId        String   @map("user_id") @db.VarChar(50)
   companyName   String   @map("company_name") @db.VarChar(200)
   position      String   @db.VarChar(200)

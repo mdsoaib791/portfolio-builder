@@ -1,6 +1,6 @@
 import DropdownBasicDto from '@/dtos/dropdown-basic-dto';
 import { injectable } from 'inversify';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import IDateTimeService from './interfaces/idatetime-service';
 
 @injectable()
@@ -163,5 +163,21 @@ export default class DateTimeService implements IDateTimeService {
     }
 
     return inputDate.format('D MMM, YYYY h:mm a');
+  }
+
+  convertDateToISOString(dateString: string | null | undefined): string | undefined {
+    if (!dateString) {
+      return undefined;
+    }
+
+    // Convert YYYY-MM-DD format to ISO string for API
+    // Add T00:00:00.000Z to ensure consistent timezone handling
+    try {
+      const isoString = new Date(dateString + 'T00:00:00.000Z').toISOString();
+      return isoString;
+    } catch (error) {
+      console.error('Error converting date to ISO string:', error);
+      return undefined;
+    }
   }
 }

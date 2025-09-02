@@ -17,19 +17,25 @@ export function AboutSection() {
           </div>
 
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">About Me</h2>
-            <p className="text-muted-foreground">I&apos;m a Frontend Developer...</p>
-            <p className="text-muted-foreground">Over the years, I&apos;ve contributed...</p>
-            <p className="text-muted-foreground">Outside of coding, you&apos;ll often find me...</p>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">About Portfolio Builder</h2>
+            <p className="text-muted-foreground mb-4">
+              Portfolio Builder is a modern, intuitive platform designed to help professionals create stunning portfolios effortlessly. Whether you're a developer, designer, or creative professional, our tool provides everything you need to showcase your work effectively.
+            </p>
+            <p className="text-muted-foreground mb-4">
+              With our drag-and-drop interface, customizable templates, and powerful features, you can create a professional portfolio that stands out. Our platform supports various content types including projects, skills, work experience, and contact information.
+            </p>
+            <p className="text-muted-foreground mb-6">
+              Join thousands of professionals who have already built their dream portfolios with our platform. Start your journey today and make your mark in the digital world.
+            </p>
 
             <div className="space-y-4">
-              <h3 className="text-xl font-semibold">What I do</h3>
+              <h3 className="text-xl font-semibold">Key Features</h3>
               <div className="flex flex-wrap gap-2">
-                <Badge variant="default">Frontend Development</Badge>
-                <Badge variant="default">Backend Development</Badge>
-                <Badge variant="default">UI/UX Design</Badge>
-                <Badge variant="default">Mobile Development</Badge>
-                <Badge variant="default">DevOps</Badge>
+                <Badge variant="default">Easy to Use</Badge>
+                <Badge variant="default">Responsive Design</Badge>
+                <Badge variant="default">Customizable Templates</Badge>
+                <Badge variant="default">SEO Optimized</Badge>
+                <Badge variant="default">Fast Loading</Badge>
               </div>
             </div>
           </div>

@@ -1,4 +1,5 @@
 import { TooltipProvider } from "@/components/ui/tooltip"
+import { Toaster } from "@/components/ui/toaster"
 import AuthProvider from "@/contexts/auth-provider"
 import TanstackProvider from "@/providers/TanstackProvider"
 import { ThemeProvider } from "@/providers/theme-provider"
@@ -39,6 +40,7 @@ export default function RootLayout({
                   disableTransitionOnChange
                 >
                   {children}
+                  <Toaster />
                 </ThemeProvider>
               </AuthProvider>
             </TooltipProvider>

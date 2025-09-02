@@ -4,16 +4,16 @@ import { TYPES } from '../config/ioc.types';
 import CustomResponse from '../dtos/custom-response';
 import { SkillDto } from '../dtos/skill.dto';
 import { CreateSkillModel, UpdateSkillModel } from '../models/skill.model';
-import { ISkillService } from '../services/interfaces/iskill.service';
+import IUnitOfService from '../services/interfaces/iunitof.service';
 
 export class SkillController {
-  constructor(private skillService = container.get<ISkillService>(TYPES.ISkillService)) {
-    this.skillService = skillService;
+  constructor(private unitOfService = container.get<IUnitOfService>(TYPES.IUnitOfService)) {
+    this.unitOfService = unitOfService;
   }
 
   getSkillById = async (req: Request, res: Response) => {
-    const id = req.params.id;
-    const skill = await this.skillService.findById(id);
+    const id = Number(req.params.id);
+    const skill = await this.unitOfService.Skill.findById(id);
     if (!skill) {
       return res.status(404).json({ message: 'Skill not found' });
     }
@@ -23,10 +23,22 @@ export class SkillController {
     };
     return res.status(200).json(response);
   };
+  getSkillByUserId = async (req: Request, res: Response) => {
+    const userId = req.params.userId;
+    const skill = await this.unitOfService.Skill.findByUserId(userId);
+    if (!skill) {
+      return res.status(404).json({ message: 'Skill not found' });
+    }
+    const response: CustomResponse<SkillDto[]> = {
+      success: true,
+      data: skill,
+    };
+    return res.status(200).json(response);
+  };
 
   getAllSkills = async (req: Request, res: Response) => {
     const { page, limit, sortBy, sortOrder, ...filters } = req.query;
-    const result = await this.skillService.findAll(filters, Number(page) || 1, Number(limit) || 10, sortBy as string, sortOrder as string);
+    const result = await this.unitOfService.Skill.findAll(filters, Number(page) || 1, Number(limit) || 10, sortBy as string, sortOrder as string);
     const response: CustomResponse<SkillDto[]> = {
       success: true,
       data: result.skills,
@@ -37,7 +49,7 @@ export class SkillController {
   createSkill = async (req: Request, res: Response) => {
     const userId = req.body?.userId || '';
     const data: CreateSkillModel = { ...req.body, userId };
-    const skill = await this.skillService.create(data);
+    const skill = await this.unitOfService.Skill.create(data);
     if (!skill) {
       return res.status(400).json({ message: 'Skill creation failed' });
     }
@@ -49,9 +61,9 @@ export class SkillController {
   };
 
   updateSkillById = async (req: Request, res: Response) => {
-    const id = req.params.id;
+    const id = Number(req.params.id);
     const data: UpdateSkillModel = req.body;
-    const skill = await this.skillService.update(id, data);
+    const skill = await this.unitOfService.Skill.update(id, data);
     if (!skill) {
       return res.status(404).json({ message: 'Skill not found' });
     }
@@ -63,8 +75,8 @@ export class SkillController {
   };
 
   deleteSkillById = async (req: Request, res: Response) => {
-    const id = req.params.id;
-    const skill = await this.skillService.delete(id);
+    const id = Number(req.params.id);
+    const skill = await this.unitOfService.Skill.delete(id);
     if (!skill) {
       return res.status(404).json({ message: 'Skill not found' });
     }

@@ -1,5 +1,5 @@
 model Project {
-  id            String   @id @default(uuid())
+  id          Int      @id @default(autoincrement())
   userId        String   @map("user_id") @db.VarChar(50)
   title         String   @db.VarChar(200)
   description   String?  @db.VarChar(2000)

@@ -1,12 +1,13 @@
-import { CreateSkillModel, Skill, UpdateSkillModel } from '../models/skill.model';
-import { PrismaClient } from '../prisma/generated/client';
+import { CreateSkillModel, UpdateSkillModel } from '../models/skill.model';
+import { SkillFilterParams } from '../params/skill.params';
+import { PrismaClient, Skill } from '../prisma/generated/client';
 import { ISkillRepository } from './interfaces/iskill.repository';
 
 const prisma = new PrismaClient();
 
 export class SkillRepository implements ISkillRepository {
   async findAll(
-    filters?: any,
+    filters?: SkillFilterParams,
     page = 1,
     limit = 10,
     sortBy = 'createdAt',
@@ -40,8 +41,8 @@ export class SkillRepository implements ISkillRepository {
     });
     const skills: Skill[] = skillsRaw.map(s => ({
       ...s,
-      level: s.level === null ? undefined : s.level,
-      description: s.description === null ? undefined : s.description,
+      level: s.level === undefined ? null : s.level,
+      description: s.description === undefined ? null : s.description,
     }));
     return {
       skills,
@@ -52,40 +53,83 @@ export class SkillRepository implements ISkillRepository {
     };
   }
 
-  async findById(id: string): Promise<Skill | null> {
+  async findById(id: number): Promise<Skill | null> {
     const s = await prisma.skill.findUnique({ where: { id } });
     if (!s) return null;
     return {
       ...s,
-      level: s.level === null ? undefined : s.level,
-      description: s.description === null ? undefined : s.description,
+      level: s.level === undefined ? null : s.level,
+      description: s.description === undefined ? null : s.description,
     };
   }
+  // async findByUserId(userId: string): Promise<Skill[]> {
+  //   const skills = await prisma.skill.findMany({ where: { userId } });
+  //   return skills.map(s => ({
+  //     ...s,
+  //     level: s.level ?? null,
+  //     description: s.description ?? null,
+  //   }));
+  // }
+
+  async findByUserId(userId: string): Promise<Skill[]> {
+    const skills = await prisma.skill.findMany({
+      where: { userId },
+      orderBy: { createdAt: "desc" }, // optional: to get latest first
+    });
+
+    return skills.map((s) => ({
+      ...s,
+      level: s.level ?? null,
+      description: s.description ?? null,
+    }));
+  }
+
 
   async create(data: CreateSkillModel): Promise<Skill> {
-    const s = await prisma.skill.create({ data });
-    return {
-      ...s,
-      level: s.level === null ? undefined : s.level,
-      description: s.description === null ? undefined : s.description,
-    };
-  }
+    const { userId, name, level, description } = data; // only allowed fields
 
-  async update(id: string, data: UpdateSkillModel): Promise<Skill | null> {
+    const s = await prisma.skill.create({
+      data: { userId, name, level, description }
+    });
+
+    return s;
+  }
+  // async create(data: CreateSkillModel): Promise<Skill> {
+  //   const s = await prisma.skill.create({ data });
+  //   console.log(s)
+  //   return {
+  //     ...s,
+  //     level: s.level === null ? undefined : s.level,
+  //     description: s.description === null ? undefined : s.description,
+  //   };
+  // }
+
+  // async create(data: CreateSkillModel): Promise<Skill> {
+  //   // Omit id if present in data (defensive)
+  //   const { id, ...dataWithoutId } = data as any;
+  //   const s = await prisma.skill.create({ data: dataWithoutId });
+  //   return {
+  //     ...s,
+  //     level: s.level === undefined ? null : s.level,
+  //     description: s.description === undefined ? null : s.description,
+  //   };
+  // }
+
+  async update(id: number, data: UpdateSkillModel): Promise<Skill | null> {
     const s = await prisma.skill.update({ where: { id }, data });
     return {
       ...s,
-      level: s.level === null ? undefined : s.level,
-      description: s.description === null ? undefined : s.description,
+      level: s.level === undefined ? null : s.level,
+      description: s.description === undefined ? null : s.description,
     };
   }
 
-  async delete(id: string): Promise<Skill | null> {
+  async delete(id: number): Promise<Skill | null> {
     const s = await prisma.skill.delete({ where: { id } });
     return {
       ...s,
-      level: s.level === null ? undefined : s.level,
-      description: s.description === null ? undefined : s.description,
+      level: s.level === undefined ? null : s.level,
+      description: s.description === undefined ? null : s.description,
     };
   }
 }

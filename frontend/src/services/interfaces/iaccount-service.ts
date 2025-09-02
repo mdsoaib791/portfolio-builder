@@ -7,5 +7,4 @@ import { LoginDto } from '@/dtos/login-dto';
 
 export default interface IAccountService {
   login(model: LoginModel): Promise<AxiosResponse<Response<LoginDto>>>;
-  changePassword(model: ChangePasswordModel): Promise<AxiosResponse<Response<PlainDto>>>;
 }

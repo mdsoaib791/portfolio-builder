@@ -15,7 +15,7 @@ export default async function LoginPage() {
   const session = await getServerSession(options); //to get the session on server component
 
   if (session) {
-    redirect('/admin');
+    redirect('/dashboard');
   }
 
   return (

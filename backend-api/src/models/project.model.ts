@@ -12,7 +12,7 @@ export interface CreateProjectModel {
 export interface UpdateProjectModel extends Partial<CreateProjectModel> { }
 
 export interface Project extends CreateProjectModel {
-  id: string;
+  id: number;
   createdAt: Date;
   updatedAt: Date;
 }

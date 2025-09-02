@@ -1,31 +1,27 @@
-import { withAuth } from 'next-auth/middleware';
-import { NextResponse } from 'next/server';
-import { RoleDto } from './dtos/role-dto';
-import { Roles } from './helpers/roles';
+import { withAuth } from "next-auth/middleware";
 
 export default withAuth(
-  // `withAuth` augments your `Request` with the user's token.
-  function middleware(req) {
-    const pageUrl = req.nextUrl.pathname.toLowerCase();
-
-    const rolesObject = (req.nextauth.token?.roles || []) as RoleDto[];
-    const roles = rolesObject.map((el) => el.name);
-
-    if (pageUrl !== '/admin/dashboard') {
-      if (pageUrl.startsWith('/superadmin-test/') && roles.indexOf(Roles.Administrator) < 0) {
-        return NextResponse.redirect(new URL('/access-denied', req.url));
-      }
-    }
+  function middleware() {
+    // Nothing needed here since role checks are removed
   },
   {
     callbacks: {
       authorized: ({ token }) => {
+        // If user has a token, allow access; otherwise redirect to /login
         return !!token;
       },
+    },
+    pages: {
+      signIn: "/login", // Redirect to login if not authenticated
     },
   }
 );
 
 export const config = {
-  matcher: ['/superadmin/:path*', '/admin/:path*', '/callcenter/:path*'],
+  matcher: [
+    "/dashboard/:path*",   // Protect all dashboard routes
+    "/superadmin/:path*",  // Still protected, only by login
+    "/admin/:path*",
+    "/callcenter/:path*",
+  ],
 };

@@ -15,9 +15,9 @@ export function SkillsSection() {
     <section id="skills" className="py-12 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/20 dark:to-purple-900/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4"> Skills</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Technical Skills</h2>
           <p className="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto">
-            Here are some of the technologies and tools I work with regularly. My expertise spans across frontend and backend development, databases, design, and more.
+            Showcase your expertise with a comprehensive skills section. Display your proficiency in various technologies, frameworks, and tools that make you stand out as a professional.
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">

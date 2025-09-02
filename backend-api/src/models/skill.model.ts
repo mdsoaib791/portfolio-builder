@@ -8,8 +8,12 @@ export interface CreateSkillModel {
 
 export interface UpdateSkillModel extends Partial<CreateSkillModel> { }
 
-export interface Skill extends CreateSkillModel {
-  id: string;
+export interface Skill {
+  id: number;
+  userId: string;
+  name: string;
+  level: string | null;
+  description: string | null;
   createdAt: Date;
   updatedAt: Date;
 }

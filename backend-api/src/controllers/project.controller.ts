@@ -6,15 +6,16 @@ import { ProjectDto } from '../dtos/project.dto';
 import CustomError from '../exceptions/custom-error';
 import { CreateProjectModel, UpdateProjectModel } from '../models/project.model';
 import { IProjectService } from '../services/interfaces/iproject.service';
+import IUnitOfService from '../services/interfaces/iunitof.service';
 
 export class ProjectController {
-  constructor(private projectService = container.get<IProjectService>(TYPES.IProjectService)) {
-    this.projectService = projectService;
+  constructor(private unitOfService = container.get<IUnitOfService>(TYPES.IUnitOfService)) {
+    this.unitOfService = unitOfService;
   }
 
   getProjectById = async (req: Request, res: Response) => {
-    const id = req.params.id;
-    const project = await this.projectService.findById(id);
+    const id = Number(req.params.id);
+    const project = await this.unitOfService.Project.findById(id);
     if (!project) {
       return res.status(404).json({ message: 'Project not found' });
     }
@@ -27,7 +28,7 @@ export class ProjectController {
 
   getAllProjects = async (req: Request, res: Response) => {
     const { page, limit, sortBy, sortOrder, ...filters } = req.query;
-    const result = await this.projectService.findAll(filters, Number(page) || 1, Number(limit) || 10, sortBy as string, sortOrder as string);
+    const result = await this.unitOfService.Project.findAll(filters, Number(page) || 1, Number(limit) || 10, sortBy as string, sortOrder as string);
     const response: CustomResponse<ProjectDto[]> = {
       success: true,
       data: result.projects,
@@ -41,7 +42,7 @@ export class ProjectController {
       throw new CustomError('User ID is required', 400);
     }
     const data: CreateProjectModel = { ...req.body, userId };
-    const project = await this.projectService.create(data);
+    const project = await this.unitOfService.Project.create(data);
     if (!project) {
       return res.status(400).json({ message: 'Project creation failed' });
     }
@@ -53,9 +54,9 @@ export class ProjectController {
   };
 
   updateProjectById = async (req: Request, res: Response) => {
-    const id = req.params.id;
+    const id = Number(req.params.id);
     const data: UpdateProjectModel = req.body;
-    const project = await this.projectService.update(id, data);
+    const project = await this.unitOfService.Project.update(id, data);
     if (!project) {
       return res.status(404).json({ message: 'Project not found' });
     }
@@ -67,8 +68,8 @@ export class ProjectController {
   };
 
   deleteProjectById = async (req: Request, res: Response) => {
-    const id = req.params.id;
-    const project = await this.projectService.delete(id);
+    const id = Number(req.params.id);
+    const project = await this.unitOfService.Project.delete(id);
     if (!project) {
       return res.status(404).json({ message: 'Project not found' });
     }

@@ -1,11 +1,11 @@
 
 
 export interface SkillDto {
-  id: string;
+  id: number;
   userId: string;
   name: string;
-  level?: string;
-  description?: string;
+  level: string | null;
+  description: string | null;
   createdAt: Date;
   updatedAt: Date;
 }

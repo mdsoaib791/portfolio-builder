@@ -15,8 +15,8 @@ export interface IWorkExperienceRepository {
     limit: number;
     totalPages: number;
   }>;
-  findById(id: string): Promise<WorkExperienceDto | null>;
+  findById(id: number): Promise<WorkExperienceDto | null>;
   create(data: CreateWorkExperienceDto): Promise<WorkExperienceDto>;
-  update(id: string, data: UpdateWorkExperienceDto): Promise<WorkExperienceDto>;
-  delete(id: string): Promise<WorkExperienceDto>;
+  update(id: number, data: UpdateWorkExperienceDto): Promise<WorkExperienceDto>;
+  delete(id: number): Promise<WorkExperienceDto>;
 }

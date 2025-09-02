@@ -26,7 +26,7 @@ const projects = [
     liveUrl: "https://example.com",
     githubUrl: "https://github.com/example",
     date: "2024-01-15",
-    client: "Tech Startup Inc.",
+    client: "E-commerce Startup",
   },
   {
     id: 2,
@@ -40,7 +40,7 @@ const projects = [
     liveUrl: "https://example.com",
     githubUrl: "https://github.com/example",
     date: "2024-02-20",
-    client: "FinTech Solutions",
+    client: "Banking Solutions",
   },
   {
     id: 3,
@@ -54,7 +54,7 @@ const projects = [
     liveUrl: "https://example.com",
     githubUrl: "https://github.com/example",
     date: "2024-03-10",
-    client: "Data Corp",
+    client: "Analytics Company",
   },
   {
     id: 4,
@@ -68,7 +68,7 @@ const projects = [
     liveUrl: "https://example.com",
     githubUrl: "https://github.com/example",
     date: "2024-04-05",
-    client: "Social Connect Ltd.",
+    client: "Social Media Corp",
   },
   {
     id: 5,
@@ -82,7 +82,7 @@ const projects = [
     liveUrl: "https://example.com",
     githubUrl: "https://github.com/example",
     date: "2024-05-12",
-    client: "HealthTech Inc.",
+    client: "Health & Fitness Co",
   },
   {
     id: 6,
@@ -96,7 +96,7 @@ const projects = [
     liveUrl: "https://example.com",
     githubUrl: "https://github.com/example",
     date: "2024-06-18",
-    client: "Crypto Solutions",
+    client: "Blockchain Ventures",
   },
 ]
 
@@ -197,10 +197,9 @@ export default function ProjectsSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4"> Featured Projects</h2>
-          <p className="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto">
-            Explore my collection of {allProjects.length}+ carefully crafted projects, each showcasing different
-            technologies and creative solutions.
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Featured Projects</h2>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            Discover a showcase of diverse projects demonstrating various skills and technologies. Each project represents different aspects of modern web and mobile development.
           </p>
         </div>
 

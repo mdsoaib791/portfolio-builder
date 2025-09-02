@@ -2,14 +2,15 @@ import { inject, injectable } from 'inversify';
 import { TYPES } from '../config/ioc.types';
 import { UpdateWorkExperienceDto, WorkExperienceDto } from '../dtos/work-experience.dto';
 import { CreateWorkExperienceModel } from '../models/work-experience.model';
-import IUnitOfWorkWorkExperience from '../repositories/interfaces/iunitofwork-work-experience.repository';
+
 import { IWorkExperienceService } from './interfaces/iwork-experience.service';
+import IUnitOfWork from '../repositories/interfaces/iunitofwork.repository';
 
 @injectable()
 export class WorkExperienceService implements IWorkExperienceService {
-  constructor(@inject(TYPES.IUnitOfWorkWorkExperience) private unitOfWork: IUnitOfWorkWorkExperience) { }
+  constructor(@inject(TYPES.IUnitOfWork) private unitOfWork: IUnitOfWork) { }
 
-  async findById(id: string): Promise<WorkExperienceDto | null> {
+  async findById(id: number): Promise<WorkExperienceDto | null> {
     return this.unitOfWork.WorkExperience.findById(id);
   }
 
@@ -27,11 +28,11 @@ export class WorkExperienceService implements IWorkExperienceService {
     return this.unitOfWork.WorkExperience.create(data);
   }
 
-  async update(id: string, data: UpdateWorkExperienceDto): Promise<WorkExperienceDto | null> {
+  async update(id: number, data: UpdateWorkExperienceDto): Promise<WorkExperienceDto | null> {
     return this.unitOfWork.WorkExperience.update(id, data);
   }
 
-  async delete(id: string): Promise<WorkExperienceDto | null> {
+  async delete(id: number): Promise<WorkExperienceDto | null> {
     return this.unitOfWork.WorkExperience.delete(id);
   }
 }

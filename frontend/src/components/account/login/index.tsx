@@ -41,20 +41,20 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       redirect: false,
       email: model.email,
       password: model.password,
-      rememberMe: model.rememberMe,
-      callbackUrl: '/admin',
+      rememberMe: model.rememberMe.toString(), // Convert boolean to string for NextAuth
+      callbackUrl: '/',
     });
-
     if (loginStatus && !loginStatus.error) {
       toast({
         title: 'Login successful',
-        description: <span>Redirecting on dashboard</span>,
+        description: <span>Redirecting to dashboard</span>,
       });
     } else {
       setIsLoading(false);
       toast({
-        title: 'Error',
-        description: <span>Invalid email or password</span>,
+        title: 'Login Error',
+        description: <span>Invalid email or password. Please try again.</span>,
+        variant: 'destructive',
       });
     }
   };
@@ -70,7 +70,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         localStorage.setItem('profilePicture', session.user.profilePicture || '');
       }
 
-      router.push('/admin');
+      router.push('/dashboard');
     }
   }, [status, session, router]);
 

@@ -4,21 +4,28 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 export function ExperienceSection() {
   const experiences = [
     {
-      title: "Frontend Developer",
-      company: "FirstBit DIgital Technologys Pvt Ltd.",
-      period: "2021 - Present",
+      title: "Senior Full Stack Developer",
+      company: "TechCorp Solutions",
+      period: "2022 - Present",
       description:
-        "Lead frontend development for multiple client projects, mentoring junior developers and implementing best practices for code quality and performance.",
-      technologies: ["Expo", "React Native", "React", "Next.js", "TypeScript", "React Query", "Tailwind CSS", "express.js", "Node.js", "Redux", "Git", "Figma", "REST APIs", "Agile Methodologies", "Cross-Browser Compatibility", "Unit Testing", "Responsive Design", "Version Control", "Code Reviews", "Continuous Integration"],
+        "Lead development of enterprise applications, mentor junior developers, and implement best practices for scalable web solutions.",
+      technologies: ["React", "Next.js", "TypeScript", "Node.js", "PostgreSQL", "AWS", "Docker", "Redis", "GraphQL", "Tailwind CSS", "Jest", "CI/CD", "Microservices"],
     },
-
     {
       title: "Frontend Developer",
-      company: "Bsit Software Services Pvt Ltd.",
-      period: "2019 - 2021",
+      company: "Digital Innovation Ltd",
+      period: "2020 - 2022",
       description:
-        "Built responsive web applications and landing pages, optimized performance and implemented SEO best practices.",
-      technologies: ["React", "JavaScript", "SCSS", "Webpack", "Bootstrap", "HTML", "CSS", "Git", "Figma", "REST APIs", "Agile Methodologies", "Cross-Browser Compatibility", "Unit Testing", "Responsive Design", "Version Control", "Code Reviews", "Continuous Integration"],
+        "Developed responsive web applications, collaborated with design teams, and optimized application performance for better user experience.",
+      technologies: ["React", "JavaScript", "SCSS", "Webpack", "Redux", "REST APIs", "Git", "Figma", "Bootstrap", "jQuery", "HTML5", "CSS3"],
+    },
+    {
+      title: "Junior Web Developer",
+      company: "StartupXYZ",
+      period: "2019 - 2020",
+      description:
+        "Built landing pages, maintained existing codebases, and learned modern web development practices in an agile environment.",
+      technologies: ["HTML", "CSS", "JavaScript", "jQuery", "Bootstrap", "PHP", "MySQL", "Git", "WordPress"],
     },
   ]
 
@@ -28,7 +35,7 @@ export function ExperienceSection() {
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Work Experience</h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            My professional journey and the roles that shaped my expertise
+            Sample work experience to showcase your professional journey and expertise
           </p>
         </div>
 

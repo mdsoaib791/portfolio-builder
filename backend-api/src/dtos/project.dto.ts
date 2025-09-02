@@ -1,7 +1,7 @@
 
 
 export interface ProjectDto {
-  id: string;
+  id: number;
   userId: string;
   title: string;
   description?: string;
