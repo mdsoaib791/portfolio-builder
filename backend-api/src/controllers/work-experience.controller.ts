@@ -4,7 +4,6 @@ import { TYPES } from '../config/ioc.types';
 import CustomResponse from '../dtos/custom-response';
 import { UpdateWorkExperienceDto, WorkExperienceDto } from '../dtos/work-experience.dto';
 import { CreateWorkExperienceModel } from '../models/work-experience.model';
-import { IWorkExperienceService } from '../services/interfaces/iwork-experience.service';
 import IUnitOfService from '../services/interfaces/iunitof.service';
 
 export class WorkExperienceController {

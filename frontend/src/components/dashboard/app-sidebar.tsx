@@ -2,34 +2,33 @@
 
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { cn } from "@/lib/utils";
 import {
-  LayoutDashboard,
-  User2,
-  BriefcaseBusiness,
-  FolderOpen,
-  Code2,
-  Settings,
-  LogOut,
-  ChevronDown,
-  Loader2,
-  Plus,
   Bell,
-  Search,
+  BriefcaseBusiness,
+  ChevronDown,
+  Code2,
+  FolderOpen,
+  LayoutDashboard,
+  Loader2,
+  LogOut,
   Moon,
-  Sun,
-  Zap,
+  Plus,
+  Settings,
   Star,
-  TrendingUp
+  Sun,
+  TrendingUp,
+  User2,
+  Zap
 } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
-import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { Badge } from "../ui/badge";
-import { cn } from "@/lib/utils";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
@@ -91,10 +90,8 @@ export function AppSidebar() {
   })
 
   useEffect(() => {
-    console.log("useCurrentUser state:", { currentUser, loading, error });
 
     if (currentUser && !loading) {
-      console.log("Setting user data:", currentUser);
       setUser({
         name: currentUser.fullName || "",
         email: currentUser.email || "",

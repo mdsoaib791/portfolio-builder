@@ -1,29 +1,20 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
-import {
-    Plus,
-    Edit,
-    Trash2,
-    Code,
-    Star,
-    Search,
-    X,
-    Filter
-} from 'lucide-react';
-import { SkillDto } from '@/dtos/skill-dto';
 import { toast } from '@/components/ui/use-toast';
 import { container } from '@/config/ioc';
 import { TYPES } from '@/config/types';
-import IUnitOfService from '@/services/interfaces/Iunit-of-service';
-import { useGetAllSkills, useDeleteSkill } from '@/hooks/services-hook/use-skill.service.hook';
+import { SkillDto } from '@/dtos/skill-dto';
+import { useDeleteSkill, useGetAllSkills } from '@/hooks/services-hook/use-skill.service.hook';
 import { SkillListParams } from '@/params/skill.params';
+import IUnitOfService from '@/services/interfaces/Iunit-of-service';
+import { Code, Edit, Filter, Plus, Star, Trash2, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import ManageSkill from './add-update';
 
 export default function SkillsList() {
@@ -46,7 +37,6 @@ export default function SkillsList() {
     const deleteSkill = useDeleteSkill();
 
     useEffect(() => {
-        console.log('Skills response:', skillsResponse);
         if (skillsResponse.status === 'success' && Array.isArray(skillsResponse.data?.data?.data)) {
             setSkills(skillsResponse.data.data.data);
         }
@@ -56,8 +46,9 @@ export default function SkillsList() {
         if (confirm('Are you sure you want to delete this skill?')) {
             try {
                 const response = await deleteSkill.mutateAsync(id);
+                console.log('Delete response:', response);
 
-                if (response && response.status === 200) {
+                if (response && response.status === 204) {
                     toast({
                         title: 'Skill deleted successfully',
                     });
@@ -293,20 +284,22 @@ export default function SkillsList() {
             {/* Loading State */}
             {skillsResponse.isLoading && (
                 <div className="space-y-4">
-                    {[1, 2, 3].map((i) => (
-                        <Card key={i} className="animate-pulse">
-                            <CardHeader>
-                                <div className="h-4 bg-muted rounded w-1/3"></div>
-                                <div className="h-3 bg-muted rounded w-1/4"></div>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="space-y-2">
-                                    <div className="h-3 bg-muted rounded w-full"></div>
-                                    <div className="h-3 bg-muted rounded w-3/4"></div>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    ))}
+                    <div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4'>
+                        {[1, 2, 3].map((i) => (
+                            <Card key={i} className="animate-pulse">
+                                <CardHeader>
+                                    <div className="h-4 bg-muted rounded w-1/3"></div>
+                                    <div className="h-3 bg-muted rounded w-1/4"></div>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="space-y-2">
+                                        <div className="h-3 bg-muted rounded w-full"></div>
+                                        <div className="h-3 bg-muted rounded w-3/4"></div>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </div>
                 </div>
             )}
 
@@ -314,6 +307,7 @@ export default function SkillsList() {
             {!skillsResponse.isLoading && (
                 <>
                     {skills.length === 0 ? (
+
                         <Card>
                             <CardContent className="pt-6">
                                 <div className="text-center text-muted-foreground">
@@ -341,70 +335,75 @@ export default function SkillsList() {
                                 </div>
                             </CardContent>
                         </Card>
+
                     ) : (
                         <div className="space-y-4">
-                            {skills.map((skill) => (
-                                <Card key={skill.id} className="hover:shadow-md transition-shadow">
-                                    <CardHeader>
-                                        <div className="flex items-start justify-between">
-                                            <div className="space-y-2">
-                                                <CardTitle className="text-xl">{skill.name}</CardTitle>
-                                                <CardDescription className="flex items-center gap-2">
-                                                    {skill.level && (
-                                                        <Badge className={getLevelColor(skill.level)}>
-                                                            {skill.level}
-                                                        </Badge>
-                                                    )}
-                                                </CardDescription>
-                                            </div>
-                                            <div className="flex items-center gap-2">
-                                                <Button
-                                                    variant="outline"
-                                                    size="sm"
-                                                    onClick={() => handleEditClick(skill.id)}
-                                                    title="Edit skill"
-                                                >
-                                                    <Edit className="h-4 w-4" />
-                                                </Button>
-                                                <Button
-                                                    variant="outline"
-                                                    size="sm"
-                                                    onClick={() => handleDelete(skill.id)}
-                                                    title="Delete skill"
-                                                >
-                                                    <Trash2 className="h-4 w-4" />
-                                                </Button>
-                                            </div>
-                                        </div>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <div className="space-y-4">
-                                            {/* Progress Bar */}
-                                            {skill.level && (
-                                                <div className="space-y-2">
-                                                    <div className="flex items-center justify-between text-sm">
-                                                        <span>Proficiency Level</span>
-                                                        <span className="font-medium">{skill.level}</span>
-                                                    </div>
-                                                    <Progress
-                                                        value={getLevelProgress(skill.level)}
-                                                        className="h-2"
-                                                    />
-                                                </div>
-                                            )}
+                            <div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4'>
+                                {skills.map((skill) => (
 
-                                            {/* Description */}
-                                            {skill.description && (
-                                                <div className="border-l-4 border-primary/20 pl-4">
-                                                    <p className="text-sm text-muted-foreground leading-relaxed">
-                                                        {skill.description}
-                                                    </p>
+                                    <Card key={skill.id} className="hover:shadow-md transition-shadow">
+                                        <CardHeader>
+                                            <div className="flex items-start justify-between">
+                                                <div className="space-y-2">
+                                                    <CardTitle className="text-xl">{skill.name}</CardTitle>
+                                                    <CardDescription className="flex items-center gap-2">
+                                                        {skill.level && (
+                                                            <Badge className={getLevelColor(skill.level)}>
+                                                                {skill.level}
+                                                            </Badge>
+                                                        )}
+                                                    </CardDescription>
                                                 </div>
-                                            )}
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            ))}
+                                                <div className="flex items-center gap-2">
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        onClick={() => handleEditClick(skill.id)}
+                                                        title="Edit skill"
+                                                    >
+                                                        <Edit className="h-4 w-4" />
+                                                    </Button>
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        onClick={() => handleDelete(skill.id)}
+                                                        title="Delete skill"
+                                                    >
+                                                        <Trash2 className="h-4 w-4" />
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <div className="space-y-4">
+                                                {/* Progress Bar */}
+                                                {skill.level && (
+                                                    <div className="space-y-2">
+                                                        <div className="flex items-center justify-between text-sm">
+                                                            <span>Proficiency Level</span>
+                                                            <span className="font-medium">{skill.level}</span>
+                                                        </div>
+                                                        <Progress
+                                                            value={getLevelProgress(skill.level)}
+                                                            className="h-2"
+                                                        />
+                                                    </div>
+                                                )}
+
+                                                {/* Description */}
+                                                {skill.description && (
+                                                    <div className="border-l-4 border-primary/20 pl-4">
+                                                        <p className="text-sm text-muted-foreground leading-relaxed">
+                                                            {skill.description}
+                                                        </p>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+
+                                ))}
+                            </div>
                         </div>
                     )}
                 </>

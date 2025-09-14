@@ -1,34 +1,34 @@
 
 "use client"
 
-import { useForm } from "react-hook-form"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Textarea } from "@/components/ui/textarea"
-import { useEffect, useState } from "react"
-import { yupResolver } from "@hookform/resolvers/yup"
-import { BsFillSendFill } from "react-icons/bs"
-import { Checkbox } from "@/components/ui/checkbox"
 import { Badge } from "@/components/ui/badge"
-import { CalendarDays, MapPin, Building2, User, FileText, Loader2 } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { toast } from "@/components/ui/use-toast"
 import { container } from "@/config/ioc"
 import { TYPES } from "@/config/types"
 import type Response from "@/dtos/response-dto"
-import type IUnitOfService from "@/services/interfaces/Iunit-of-service"
-import type { AxiosResponse } from "axios"
-import { toast } from "@/components/ui/use-toast"
-import { useRouter } from "next/navigation"
+import type { WorkExperienceDto } from "@/dtos/work-experience-dto"
 import {
     useAddWorkExperience,
     useGetWorkExperienceById,
     useUpdateWorkExperience,
 } from "@/hooks/services-hook/use-work-experience.service.hook"
+import useGetCurrentUser from "@/hooks/use-get-current-user"
 import type { WorkExperienceModel } from "@/models/work-experience-model"
 import WorkExperienceSchema from "@/schema/work-experience-schema"
-import type { WorkExperienceDto } from "@/dtos/work-experience-dto"
-import useGetCurrentUser from "@/hooks/use-get-current-user"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import type IUnitOfService from "@/services/interfaces/Iunit-of-service"
+import { yupResolver } from "@hookform/resolvers/yup"
+import type { AxiosResponse } from "axios"
+import { Building2, CalendarDays, FileText, Loader2, MapPin, User } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
+import { useForm } from "react-hook-form"
+import { BsFillSendFill } from "react-icons/bs"
 
 interface ManageWorkExperienceProps {
     id: number;
@@ -159,7 +159,7 @@ export default function ManageWorkExperience({ id, isOpen, onClose, onSuccess }:
                 toast({
                     title: "Work experience saved successfully",
                 })
-                router.push("/dashboard/work-experience/")
+                onClose()
             } else {
                 setShowLoader(false)
                 const error = unitOfService.ErrorHandlerService.getErrorMessage(response)

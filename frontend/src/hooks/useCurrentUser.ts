@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from 'react';
 import { container } from '@/config/ioc';
 import { TYPES } from '@/config/types';
-import IUserService from '@/services/interfaces/iuser-service';
 import { UserDto } from '@/dtos/user-dto';
+import IUserService from '@/services/interfaces/iuser-service';
+import { useEffect, useState } from 'react';
 
 export const useCurrentUser = () => {
     const [currentUser, setCurrentUser] = useState<UserDto | null>(null);
@@ -19,7 +19,7 @@ export const useCurrentUser = () => {
 
                 // Check if we have a token
                 const token = localStorage.getItem('at');
-                console.log("Token exists:", !!token);
+
 
                 if (!token) {
                     throw new Error("No authentication token found");
@@ -28,7 +28,7 @@ export const useCurrentUser = () => {
                 const userService = container.get<IUserService>(TYPES.IUserService);
                 const response = await userService.checkUserStatus();
 
-                console.log("API Response:", response.data);
+            
 
                 if (response.data && response.data.success && response.data.data) {
                     setCurrentUser(response.data.data);

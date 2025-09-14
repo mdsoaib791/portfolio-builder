@@ -97,7 +97,7 @@ const useDeleteSkill = () => {
     return useMutation({
         mutationFn,
         onSettled: (response) => {
-            if (response && response.status === 200) {
+            if (response && response.status === 204) {
                 // Invalidate and refetch skills queries
                 queryClient.invalidateQueries({ queryKey: ['SkillService.getAll'] });
             }

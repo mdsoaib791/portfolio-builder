@@ -2,9 +2,9 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { container } from '@/config/ioc';
 import { TYPES } from '@/config/types';
-import IUnitOfService from '@/services/interfaces/Iunit-of-service';
-import { ProjectListParams } from '@/params/project.params';
 import { ProjectModel } from '@/models/project-model';
+import { ProjectListParams } from '@/params/project.params';
+import IUnitOfService from '@/services/interfaces/Iunit-of-service';
 
 const useGetAllProjects = (params: ProjectListParams, enabled: boolean = true) => {
     const unitOfService = container.get<IUnitOfService>(TYPES.IUnitOfService);
@@ -86,7 +86,7 @@ const useDeleteProject = () => {
     return useMutation({
         mutationFn,
         onSettled: (response) => {
-            if (response && response.status === 200) {
+            if (response && response.status === 204) {
                 // Invalidate and refetch projects queries
                 queryClient.invalidateQueries({ queryKey: ['ProjectService.getAll'] });
             }
@@ -98,9 +98,7 @@ const useDeleteProject = () => {
 };
 
 export {
-    useGetAllProjects,
-    useGetProjectById,
-    useAddProject,
-    useUpdateProject,
-    useDeleteProject,
+    useAddProject, useDeleteProject, useGetAllProjects,
+    useGetProjectById, useUpdateProject
 };
+

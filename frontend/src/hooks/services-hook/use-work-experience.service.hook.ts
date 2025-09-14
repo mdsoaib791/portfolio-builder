@@ -2,9 +2,9 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { container } from '@/config/ioc';
 import { TYPES } from '@/config/types';
-import IUnitOfService from '@/services/interfaces/Iunit-of-service';
-import { WorkExperienceListParams } from '@/params/work-experience.params';
 import { WorkExperienceModel } from '@/models/work-experience-model';
+import { WorkExperienceListParams } from '@/params/work-experience.params';
+import IUnitOfService from '@/services/interfaces/Iunit-of-service';
 
 const useGetAllWorkExperiences = (params: WorkExperienceListParams, enabled: boolean = true) => {
     const unitOfService = container.get<IUnitOfService>(TYPES.IUnitOfService);
@@ -92,7 +92,7 @@ const useDeleteWorkExperience = () => {
     return useMutation({
         mutationFn,
         onSettled: (response) => {
-            if (response && response.status === 200) {
+            if (response && response.status === 204) {
                 // Invalidate and refetch work experience queries
                 queryClient.invalidateQueries({
                     queryKey: ['WorkExperienceService.getAll']
@@ -106,9 +106,7 @@ const useDeleteWorkExperience = () => {
 };
 
 export {
-    useGetAllWorkExperiences,
-    useGetWorkExperienceById,
-    useAddWorkExperience,
-    useUpdateWorkExperience,
-    useDeleteWorkExperience,
+    useAddWorkExperience, useDeleteWorkExperience, useGetAllWorkExperiences,
+    useGetWorkExperienceById, useUpdateWorkExperience
 };
+

@@ -1,27 +1,27 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import React, { useEffect, useState } from 'react';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { BsFillSendFill } from 'react-icons/bs';
+import { Textarea } from '@/components/ui/textarea';
+import { toast } from '@/components/ui/use-toast';
 import { container } from '@/config/ioc';
 import { TYPES } from '@/config/types';
 import Response from '@/dtos/response-dto';
-import IUnitOfService from '@/services/interfaces/Iunit-of-service';
-import { AxiosResponse } from 'axios';
-import { toast } from '@/components/ui/use-toast';
+import { SkillDto } from '@/dtos/skill-dto';
 import { useAddSkill, useGetSkillById, useUpdateSkill } from '@/hooks/services-hook/use-skill.service.hook';
+import useGetCurrentUser from '@/hooks/use-get-current-user';
 import { SkillModel } from '@/models/skill-model';
 import SkillSchema from '@/schema/skill-schema';
-import { SkillDto } from '@/dtos/skill-dto';
-import useGetCurrentUser from '@/hooks/use-get-current-user';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import IUnitOfService from '@/services/interfaces/Iunit-of-service';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { AxiosResponse } from 'axios';
 import { Loader2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { BsFillSendFill } from 'react-icons/bs';
 
 interface ManageSkillProps {
     id: number;
@@ -58,17 +58,7 @@ export default function ManageSkill({ id, isOpen, onClose, onSuccess }: ManageSk
 
     const { setValue, handleSubmit, watch, reset, formState: { errors, isValid } } = form;
 
-    // Debug: Watch form values
-    const watchedValues = watch();
 
-    useEffect(() => {
-        if (process.env.NODE_ENV === 'development') {
-            console.log('Skill Form values:', watchedValues);
-            console.log('Skill Form errors:', errors);
-            console.log('Skill Form is valid:', isValid);
-            console.log('Current user:', currentUser);
-        }
-    }, [watchedValues, errors, isValid, currentUser]);
 
     const fillSkillDetails = (skill: SkillDto) => {
         setValue('userId', skill.userId);
@@ -135,7 +125,7 @@ export default function ManageSkill({ id, isOpen, onClose, onSuccess }: ManageSk
                 response = await addSkill.mutateAsync(model);
             }
 
-            console.log('Skill API Response:', response);
+
 
             if (response && (response.status === 200 || response.status === 201) && response.data.data) {
                 setShowLoader(false);

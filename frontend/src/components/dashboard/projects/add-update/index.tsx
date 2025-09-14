@@ -182,7 +182,7 @@ export default function ManageProject({ id, isOpen, onClose, onSuccess }: Manage
                 response = await addProject.mutateAsync(model);
             }
 
-            console.log('Project API Response:', response);
+
 
             if (response && (response.status === 200 || response.status === 201)) {
                 setShowLoader(false);

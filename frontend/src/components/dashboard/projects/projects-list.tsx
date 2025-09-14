@@ -58,12 +58,10 @@ export default function ProjectsList() {
             try {
                 const response = await deleteProject.mutateAsync(id);
 
-                if (response && response.status === 200) {
+                if (response && response.status === 204) {
                     toast({
                         title: 'Project deleted successfully',
                     });
-                    // Refresh the list
-                    projectsResponse.refetch();
                 } else {
                     const error = unitOfService.ErrorHandlerService.getErrorMessage(response);
                     toast({
@@ -283,20 +281,22 @@ export default function ProjectsList() {
             {/* Loading State */}
             {projectsResponse.isLoading && (
                 <div className="space-y-4">
-                    {[1, 2, 3].map((i) => (
-                        <Card key={i} className="animate-pulse">
-                            <CardHeader>
-                                <div className="h-4 bg-muted rounded w-1/3"></div>
-                                <div className="h-3 bg-muted rounded w-1/4"></div>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="space-y-2">
-                                    <div className="h-3 bg-muted rounded w-full"></div>
-                                    <div className="h-3 bg-muted rounded w-3/4"></div>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    ))}
+                    <div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3'>
+                        {[1, 2, 3].map((i) => (
+                            <Card key={i} className="animate-pulse">
+                                <CardHeader>
+                                    <div className="h-4 bg-muted rounded w-1/3"></div>
+                                    <div className="h-3 bg-muted rounded w-1/4"></div>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="space-y-2">
+                                        <div className="h-3 bg-muted rounded w-full"></div>
+                                        <div className="h-3 bg-muted rounded w-3/4"></div>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </div>
                 </div>
             )}
 
@@ -333,87 +333,89 @@ export default function ProjectsList() {
                         </Card>
                     ) : (
                         <div className="space-y-4">
-                            {projects.map((project) => {
-                                const techArray = getTechnologiesArray(project.technologies);
-                                const status = getProjectStatus(project.endDate);
+                            <div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3'>
+                                {projects.map((project) => {
+                                    const techArray = getTechnologiesArray(project.technologies);
+                                    const status = getProjectStatus(project.endDate);
 
-                                return (
-                                    <Card key={project.id} className="hover:shadow-md transition-shadow">
-                                        <CardHeader>
-                                            <div className="flex items-start justify-between">
-                                                <div className="space-y-2">
-                                                    <CardTitle className="text-xl">{project.title}</CardTitle>
-                                                    <CardDescription className="flex items-center gap-2 text-base">
-                                                        <Calendar className="h-4 w-4" />
-                                                        {formatDate(project.startDate)} - {formatDate(project.endDate) || 'Present'}
-                                                    </CardDescription>
-                                                </div>
-                                                <div className="flex items-center gap-2">
-                                                    <Button
-                                                        variant="outline"
-                                                        size="sm"
-                                                        onClick={() => handleEditClick(project.id)}
-                                                        title="Edit project"
-                                                    >
-                                                        <Edit className="h-4 w-4" />
-                                                    </Button>
-                                                    <Button
-                                                        variant="outline"
-                                                        size="sm"
-                                                        onClick={() => handleDelete(project.id)}
-                                                        title="Delete project"
-                                                    >
-                                                        <Trash2 className="h-4 w-4" />
-                                                    </Button>
-                                                </div>
-                                            </div>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <div className="space-y-4">
-                                                {/* Status and Link */}
-                                                <div className="flex flex-wrap items-center gap-4">
-                                                    <Badge className={getStatusColor(status)}>
-                                                        {status}
-                                                    </Badge>
-                                                    {project.url && (
-                                                        <Link
-                                                            href={project.url}
-                                                            target="_blank"
-                                                            className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                                    return (
+                                        <Card key={project.id} className="hover:shadow-md transition-shadow">
+                                            <CardHeader>
+                                                <div className="flex items-start justify-between">
+                                                    <div className="space-y-2">
+                                                        <CardTitle className="text-xl">{project.title}</CardTitle>
+                                                        <CardDescription className="flex items-center gap-2 text-base">
+                                                            <Calendar className="h-4 w-4" />
+                                                            {formatDate(project.startDate)} - {formatDate(project.endDate) || 'Present'}
+                                                        </CardDescription>
+                                                    </div>
+                                                    <div className="flex items-center gap-2">
+                                                        <Button
+                                                            variant="outline"
+                                                            size="sm"
+                                                            onClick={() => handleEditClick(project.id)}
+                                                            title="Edit project"
                                                         >
-                                                            <ExternalLink className="h-4 w-4" />
-                                                            View Project
-                                                        </Link>
+                                                            <Edit className="h-4 w-4" />
+                                                        </Button>
+                                                        <Button
+                                                            variant="outline"
+                                                            size="sm"
+                                                            onClick={() => handleDelete(project.id)}
+                                                            title="Delete project"
+                                                        >
+                                                            <Trash2 className="h-4 w-4" />
+                                                        </Button>
+                                                    </div>
+                                                </div>
+                                            </CardHeader>
+                                            <CardContent>
+                                                <div className="space-y-4">
+                                                    {/* Status and Link */}
+                                                    <div className="flex flex-wrap items-center gap-4">
+                                                        <Badge className={getStatusColor(status)}>
+                                                            {status}
+                                                        </Badge>
+                                                        {project.url && (
+                                                            <Link
+                                                                href={project.url}
+                                                                target="_blank"
+                                                                className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                                                            >
+                                                                <ExternalLink className="h-4 w-4" />
+                                                                View Project
+                                                            </Link>
+                                                        )}
+                                                    </div>
+
+                                                    {/* Description */}
+                                                    {project.description && (
+                                                        <div className="border-l-4 border-primary/20 pl-4">
+                                                            <p className="text-sm text-muted-foreground leading-relaxed">
+                                                                {project.description}
+                                                            </p>
+                                                        </div>
+                                                    )}
+
+                                                    {/* Technologies */}
+                                                    {techArray.length > 0 && (
+                                                        <div className="space-y-2">
+                                                            <p className="text-sm font-medium">Technologies:</p>
+                                                            <div className="flex flex-wrap gap-2">
+                                                                {techArray.map((tech, index) => (
+                                                                    <Badge key={index} variant="outline" className="text-xs">
+                                                                        {tech}
+                                                                    </Badge>
+                                                                ))}
+                                                            </div>
+                                                        </div>
                                                     )}
                                                 </div>
-
-                                                {/* Description */}
-                                                {project.description && (
-                                                    <div className="border-l-4 border-primary/20 pl-4">
-                                                        <p className="text-sm text-muted-foreground leading-relaxed">
-                                                            {project.description}
-                                                        </p>
-                                                    </div>
-                                                )}
-
-                                                {/* Technologies */}
-                                                {techArray.length > 0 && (
-                                                    <div className="space-y-2">
-                                                        <p className="text-sm font-medium">Technologies:</p>
-                                                        <div className="flex flex-wrap gap-2">
-                                                            {techArray.map((tech, index) => (
-                                                                <Badge key={index} variant="outline" className="text-xs">
-                                                                    {tech}
-                                                                </Badge>
-                                                            ))}
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                );
-                            })}
+                                            </CardContent>
+                                        </Card>
+                                    );
+                                })}
+                            </div>
                         </div>
                     )}
                 </>

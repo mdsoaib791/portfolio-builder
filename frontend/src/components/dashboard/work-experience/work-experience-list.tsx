@@ -1,30 +1,29 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-    Plus,
-    Edit,
-    Trash2,
-    MapPin,
-    Calendar,
-    Building,
-    Search,
-    X,
-    Filter
-} from 'lucide-react';
-import { WorkExperienceDto } from '@/dtos/work-experience-dto';
-import { useGetAllWorkExperiences, useDeleteWorkExperience } from '@/hooks/services-hook/use-work-experience.service.hook';
-import { WorkExperienceListParams } from '@/params/work-experience.params';
 import { toast } from '@/components/ui/use-toast';
 import { container } from '@/config/ioc';
 import { TYPES } from '@/config/types';
+import { WorkExperienceDto } from '@/dtos/work-experience-dto';
+import { useDeleteWorkExperience, useGetAllWorkExperiences } from '@/hooks/services-hook/use-work-experience.service.hook';
+import { WorkExperienceListParams } from '@/params/work-experience.params';
 import IUnitOfService from '@/services/interfaces/Iunit-of-service';
+import {
+    Building,
+    Calendar,
+    Edit,
+    Filter,
+    MapPin,
+    Plus,
+    Trash2,
+    X
+} from 'lucide-react';
 import moment from 'moment';
+import { useEffect, useState } from 'react';
 import ManageWorkExperience from './add-update';
 
 export default function WorkExperienceList() {
@@ -63,13 +62,11 @@ export default function WorkExperienceList() {
         if (confirm('Are you sure you want to delete this work experience?')) {
             try {
                 const response = await deleteWorkExperience.mutateAsync(id);
-
-                if (response && response.status === 200) {
+                console.log(response);
+                if (response && response.status === 204) {
                     toast({
                         title: 'Work experience deleted successfully',
                     });
-                    // Refresh the list
-                    workExperienceResponse.refetch();
                 } else {
                     const error = unitOfService.ErrorHandlerService.getErrorMessage(response);
                     toast({
