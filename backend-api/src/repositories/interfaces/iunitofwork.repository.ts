@@ -1,4 +1,5 @@
 import { Prisma } from '../../prisma/generated';
+import { IPortfolioRepository } from './iportfolio.repository';
 import { IProjectRepository } from './iproject.repository';
 import { ISkillRepository } from './iskill.repository';
 import { IUserRepository } from './iuser.repository';
@@ -9,6 +10,7 @@ export default interface IUnitOfWork {
   Project: IProjectRepository;
   Skill: ISkillRepository;
   WorkExperience: IWorkExperienceRepository;
+  Portfolio: IPortfolioRepository;
 
   /**
    * Executes a set of operations within a database transaction.

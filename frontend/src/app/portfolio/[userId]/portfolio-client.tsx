@@ -25,8 +25,7 @@ export default function PortfolioClient() {
     const projectResponse = useGetAllProjects({ userId });
     const experienceResponse = useGetAllWorkExperiences({ userId });
 
-    console.log("skillResponse", skillResponse)
-    console.log("projectResponse", projectResponse)
+
 
     useEffect(() => {
         if (!userId) {

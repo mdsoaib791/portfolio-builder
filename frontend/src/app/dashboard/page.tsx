@@ -3,27 +3,30 @@
 import ManageProject from "@/components/dashboard/projects/add-update";
 import ManageSkill from "@/components/dashboard/skills/add-update";
 import ManageWorkExperience from "@/components/dashboard/work-experience/add-update";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
-import { Book, Briefcase, ChevronRight, Code, Edit, Globe, PlusCircle, User } from "lucide-react";
+import { Book, Briefcase, ChevronRight, Code, Edit, Globe, PlusCircle, Sparkles, User } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 function DashboardPage() {
     const { currentUser, loading } = useCurrentUser();
     const [userId, setUserId] = useState<string | null>(null);
-    console.log(currentUser)
+
 
     const [showProjectModal, setShowProjectModal] = useState(false);
     const [showSkillModal, setShowSkillModal] = useState(false);
     const [showExperienceModal, setShowExperienceModal] = useState(false);
+    const [showAIGenerator, setShowAIGenerator] = useState(false);
 
     const closeModals = () => {
         setShowProjectModal(false);
         setShowSkillModal(false);
         setShowExperienceModal(false);
+        setShowAIGenerator(false);
     };
 
 
@@ -47,7 +50,7 @@ function DashboardPage() {
                                 <p className="text-gray-600">Your portfolio is live and ready to be shared with the world!</p>
                             </div>
                             <div className="flex space-x-3">
-                                <Button variant="outline" asChild>
+                                <Button variant="outline">
                                     <Link href={`/portfolio/${currentUser.id}`} target="_blank">
                                         <Globe className="mr-2 h-4 w-4" /> View Portfolio
                                     </Link>
@@ -59,6 +62,38 @@ function DashboardPage() {
                         </div>
                     </CardContent>
                 </Card>
+            )}
+
+            {/* AI Portfolio Generator Card */}
+            {!showAIGenerator ? (
+                <Card className="mb-6 bg-gradient-to-r from-purple-50 to-pink-50 border-none">
+                    <CardContent className="pt-6">
+                        <div className="flex flex-col md:flex-row items-center justify-between">
+                            <div className="mb-4 md:mb-0">
+                                <h2 className="text-2xl font-bold text-purple-700 mb-2 flex items-center gap-2">
+                                    <Sparkles className="w-6 h-6" />
+                                    AI Portfolio Generator
+                                </h2>
+                                <p className="text-gray-600">Create your entire portfolio instantly using AI - just describe yourself or upload your CV!</p>
+                            </div>
+                            <div className="flex space-x-3">
+                                <Button onClick={() => setShowAIGenerator(true)} className="bg-purple-600 hover:bg-purple-700">
+                                    <Sparkles className="mr-2 h-4 w-4" />
+                                    Generate Portfolio
+                                </Button>
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+            ) : (
+                <div className="mb-6">
+                    <div className="flex items-center justify-between mb-4">
+                        <Button variant="ghost" onClick={() => setShowAIGenerator(false)}>
+                            ← Back to Dashboard
+                        </Button>
+                    </div>
+
+                </div>
             )}
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -269,7 +304,7 @@ function DashboardPage() {
                         <CardFooter>
                             <Button className="w-full">
                                 <Link href="/dashboard/profile">
-                                    <Edit className="mr-2 h-4 w-4 inline-block" /> Update Profile
+                                    <Edit className="mr-2 h-4 w-4" /> Update Profile
                                 </Link>
                             </Button>
                         </CardFooter>

@@ -47,7 +47,7 @@ export default function ProjectsList() {
     const deleteProject = useDeleteProject();
 
     useEffect(() => {
-        console.log('Projects response:', projectsResponse);
+
         if (projectsResponse.status === 'success' && Array.isArray(projectsResponse.data?.data?.data)) {
             setProjects(projectsResponse.data.data.data);
         }

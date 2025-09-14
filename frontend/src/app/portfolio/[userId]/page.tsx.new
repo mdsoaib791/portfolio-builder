@@ -1,0 +1,41 @@
+import React from 'react';
+import { Metadata, ResolvingMetadata } from 'next';
+import { portfolioService } from '@/services/portfolio-service';
+import PortfolioClient from './portfolio-client';
+
+// Generate dynamic metadata for the portfolio page
+export async function generateMetadata(
+    { params }: { params: { userId: string } },
+    parent: ResolvingMetadata
+): Promise<Metadata> {
+    // Fetch user data for metadata
+    try {
+        const portfolioData = await portfolioService.getUserPortfolioData(params.userId);
+        const user = portfolioData.user;
+
+        if (!user) {
+            return {
+                title: 'Portfolio Not Found',
+                description: 'The requested portfolio could not be found.'
+            };
+        }
+
+        // Use a safer approach with optional chaining and string coercion
+        const userName = String(user.id || 'User');
+
+        return {
+            title: `${userName} - Portfolio`,
+            description: `Professional portfolio for ${userName}`,
+        };
+    } catch (error) {
+        return {
+            title: 'Portfolio',
+            description: 'View professional portfolio'
+        };
+    }
+}
+
+// Server component
+export default function Portfolio() {
+    return <PortfolioClient />;
+}

@@ -3,27 +3,29 @@ import 'reflect-metadata';
 import { Container } from 'inversify';
 import { TYPES } from './types';
 
-import IHttpService from '@/services/interfaces/ihttp-service';
-import IUnitOfService from '@/services/interfaces/Iunit-of-service';
 import IAccountService from '@/services/interfaces/iaccount-service';
 import IDateTimeService from '@/services/interfaces/idatetime-service';
-import IMiscellaneousService from '@/services/interfaces/imiscellaneous-service';
 import IErrorHandlerService from '@/services/interfaces/ierror-handler-service';
+import IHttpService from '@/services/interfaces/ihttp-service';
+import IMiscellaneousService from '@/services/interfaces/imiscellaneous-service';
+import IProjectService from '@/services/interfaces/iproject-service';
+import ISkillService from '@/services/interfaces/iskill-service';
+import IUnitOfService from '@/services/interfaces/Iunit-of-service';
 import IUserService from '@/services/interfaces/iuser-service';
 import IWorkExperienceService from '@/services/interfaces/iwork-experience-service';
-import ISkillService from '@/services/interfaces/iskill-service';
-import IProjectService from '@/services/interfaces/iproject-service';
 
-import HttpService from '@/services/http-service';
-import UnitOfService from '@/services/unit-of-service';
+
 import AccountService from '@/services/account-service';
 import DateTimeService from '@/services/datetime-service';
-import MiscellaneousService from '@/services/miscellaneous-service';
 import ErrorHandlerService from '@/services/error-handler-service';
+import HttpService from '@/services/http-service';
+import MiscellaneousService from '@/services/miscellaneous-service';
+import ProjectService from '@/services/project-service';
+import SkillService from '@/services/skill-service';
+import UnitOfService from '@/services/unit-of-service';
 import UserService from '@/services/user-service';
 import WorkExperienceService from '@/services/work-experience-service';
-import SkillService from '@/services/skill-service';
-import ProjectService from '@/services/project-service';
+
 
 const container = new Container();
 
@@ -39,3 +41,4 @@ container.bind<ISkillService>(TYPES.ISkillService).to(SkillService);
 container.bind<IProjectService>(TYPES.IProjectService).to(ProjectService);
 
 export { container };
+

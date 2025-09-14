@@ -1,3 +1,4 @@
+import { IPortfolioService } from './iportfolio.service';
 import { IProjectService } from './iproject.service';
 import { ISkillService } from './iskill.service';
 import { IUserService } from './iuser.service';
@@ -8,4 +9,5 @@ export default interface IUnitOfService {
   Project: IProjectService;
   Skill: ISkillService;
   WorkExperience: IWorkExperienceService;
+  Portfolio: IPortfolioService;
 }

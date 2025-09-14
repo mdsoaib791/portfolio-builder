@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
+import Link from 'next/link';
 import { options } from '@/app/api/auth/[...nextauth]/options';
 
 import { UserAuthForm } from '@/components/account/login';
@@ -46,7 +47,13 @@ export default async function LoginPage() {
               </p>
             </div>
             <UserAuthForm />
-            <p className="mt-4 px-8 text-center text-sm text-muted-foreground">
+            <div className="mt-4 text-center text-sm text-muted-foreground">
+              Don't have an account?{' '}
+              <Link href="/register" className="underline underline-offset-4 hover:text-primary">
+                Create account here
+              </Link>
+            </div>
+            <p className="mt-2 px-8 text-center text-sm text-muted-foreground">
               By clicking login, you agree to our{' '}
               <a href="/terms" className="underline underline-offset-4 hover:text-primary">
                 Terms of Service

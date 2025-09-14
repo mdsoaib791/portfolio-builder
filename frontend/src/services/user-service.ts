@@ -30,11 +30,11 @@ export default class UserService implements IUserService {
   }
 
   getUserDetails(userId: string): Promise<AxiosResponse<Response<UserDto>>> {
-    return this.httpService.call().get<UserDto, AxiosResponse<Response<UserDto>>>(`/User/GetUserDetails/${userId}`);
+    return this.httpService.call().get<UserDto, AxiosResponse<Response<UserDto>>>(`/user/GetUserDetails/${userId}`);
   }
 
   checkUserStatus(): Promise<AxiosResponse<Response<UserDto>>> {
-    return this.httpService.call().get<UserDto, AxiosResponse<Response<UserDto>>>(`/User/CheckUserStatus`);
+    return this.httpService.call().get<UserDto, AxiosResponse<Response<UserDto>>>(`/users/me`);
   }
 
   add(model: UserModel): Promise<AxiosResponse<Response<UserDto>>> {

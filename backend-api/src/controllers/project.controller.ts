@@ -5,7 +5,6 @@ import CustomResponse from '../dtos/custom-response';
 import { ProjectDto } from '../dtos/project.dto';
 import CustomError from '../exceptions/custom-error';
 import { CreateProjectModel, UpdateProjectModel } from '../models/project.model';
-import { IProjectService } from '../services/interfaces/iproject.service';
 import IUnitOfService from '../services/interfaces/iunitof.service';
 
 export class ProjectController {

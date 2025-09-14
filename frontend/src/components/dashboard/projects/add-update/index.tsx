@@ -66,7 +66,6 @@ export default function ManageProject({ id, isOpen, onClose, onSuccess }: Manage
 
     const { setValue, handleSubmit, watch, reset, formState: { errors, isValid } } = form;
 
-    // Debug: Watch form values
     const watchedValues = watch();
 
     useEffect(() => {
