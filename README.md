@@ -70,7 +70,7 @@ Clone the repository and install dependencies:
 
 ```bash
 # Clone repository
-git clone https://github.com/your-username/portfolio-builder
+git clone https://github.com/mdsoaib791/portfolio-builder
 
 # Navigate into project directory
 cd portfolio-builder
