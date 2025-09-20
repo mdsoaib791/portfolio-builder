@@ -6,6 +6,7 @@ import { SkillDto } from '@/dtos/skill-dto';
 import { WorkExperienceDto } from '@/dtos/work-experience-dto';
 import { useGetAllProjects } from '@/hooks/services-hook/use-project.service.hook';
 import { useGetAllSkills } from '@/hooks/services-hook/use-skill.service.hook';
+import { useGetAllUsers } from '@/hooks/services-hook/use-user.service.hook';
 import { useGetAllWorkExperiences } from '@/hooks/services-hook/use-work-experience.service.hook';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -24,7 +25,8 @@ export default function PortfolioClient() {
     const skillResponse = useGetAllSkills({ userId });
     const projectResponse = useGetAllProjects({ userId });
     const experienceResponse = useGetAllWorkExperiences({ userId });
-
+    const userDetailsResponse = useGetAllUsers({ userId }, !!userId);
+    console.log(userDetailsResponse)
 
 
     useEffect(() => {

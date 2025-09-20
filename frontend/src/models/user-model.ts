@@ -6,5 +6,8 @@ export interface UserModel {
     profilePicture?: string;
     phoneNumber?: string;
     userType?: string;
+    bannerHeading?: string | null;
+    bannerDesc?: string | null;
+    cv?: string | null;
     timezoneId?: string;
 }

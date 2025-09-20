@@ -16,7 +16,7 @@ function DashboardPage() {
     const { currentUser, loading } = useCurrentUser();
     const [userId, setUserId] = useState<string | null>(null);
 
-
+    console.log(currentUser, "currentUser");
     const [showProjectModal, setShowProjectModal] = useState(false);
     const [showSkillModal, setShowSkillModal] = useState(false);
     const [showExperienceModal, setShowExperienceModal] = useState(false);

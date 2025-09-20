@@ -8,7 +8,7 @@ export function HeroSection() {
       <div className="max-w-4xl mx-auto text-center">
         <div className="mb-8">
           <Badge variant="secondary" className="mb-4">
-            Welcome to Portfolio Builder
+            Welcome
           </Badge>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6">
             Create Your{" "}

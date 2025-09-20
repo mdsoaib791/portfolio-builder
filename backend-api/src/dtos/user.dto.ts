@@ -20,6 +20,9 @@ export interface UserDto {
   isActive?: boolean;
   createdAt: Date;
   updatedAt?: Date | null;
+  bannerHeading?: string | null;
+  bannerDesc?: string | null;
+  cv?: string | null;
 }
 
 export interface CreateUserDto {
@@ -39,6 +42,9 @@ export interface CreateUserDto {
   twoFactorSecret?: string;
   role?: UserRole;
   isActive?: boolean;
+  bannerHeading?: string;
+  bannerDesc?: string;
+  cv?: string;
 }
 
-export interface UpdateUserDto extends Partial<CreateUserDto> {}
+export interface UpdateUserDto extends Partial<CreateUserDto> { }
